@@ -1,0 +1,104 @@
+<div class="page-wrapper">
+  <h1 class="title">Register</h1>
+
+  <form class="row" (ngSubmit)="onSubmit(form)" #form="ngForm">
+    <div class="form-group col-md-2 offset-4 text-left">
+      <label>First name:</label>
+      <input
+        nbInput
+        fullWidth
+        type="text"
+        placeholder="First name"
+        class="form-control"
+        [(ngModel)]="formData.firstName"
+        name="firstName"
+        required
+      />
+    </div>
+
+    <div class="form-group col-md-2 text-left">
+      <label>Last name:</label>
+      <input
+        nbInput
+        fullWidth
+        type="text"
+        placeholder="Last name"
+        class="form-control"
+        [(ngModel)]="formData.lastName"
+        name="lastName"
+        required
+      />
+    </div>
+
+    <div class="form-group col-md-4 offset-4 text-left">
+      <label>Email address:</label>
+      <input
+        nbInput
+        fullWidth
+        type="text"
+        placeholder="Email address"
+        class="form-control"
+        [(ngModel)]="formData.email"
+        name="email"
+        required
+      />
+    </div>
+
+    <div class="form-group col-md-4 offset-4 text-left">
+      <label>Password:</label>
+      <input
+        nbInput
+        fullWidth
+        type="password"
+        placeholder="Password"
+        class="form-control"
+        [(ngModel)]="formData.password"
+        name="password"
+        required
+      />
+    </div>
+
+    <div class="form-group col-md-4 offset-4 text-left" style="margin-top: 20px;">
+      <nb-checkbox>I agree to the <a>Terms and Conditions</a></nb-checkbox>
+    </div>
+
+    <div class="col-md-4 offset-4">
+      <br />
+      <button
+        type="submit"
+        nbButton
+        fullWidth
+        class="float-right"
+        [disabled]="!form.valid"
+        [nbSpinner]="loading"
+        nbSpinnerMessage=""
+        nbSpinnerStatus="primary"
+      >
+        Register
+      </button>
+    </div>
+
+    <div class="col-md-4 offset-4" style="margin-top: 34px;">
+      <span>or register with:</span>
+
+      <div>
+        <div class="d-flex align-content-center justify-content-center">
+          <a (click)="authWithProvider('google')" class="social-icon">
+            <nb-icon icon="google"></nb-icon>
+            <ng-template #title>Google</ng-template>
+          </a>
+          <a class="social-icon">
+            <nb-icon icon="facebook"></nb-icon>
+            <ng-template #title>Facebook</ng-template>
+          </a>
+          <a class="social-icon">
+            <nb-icon icon="twitter"></nb-icon>
+            <ng-template #title>Twitter</ng-template>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 offset-4" style="margin-top: 34px;">Already have an account? <a routerLink="/auth/login">Login</a></div>
+  </form>
+</div>

@@ -1,0 +1,52 @@
+@import 'src/themes';
+
+::ng-deep .nb-theme-default nb-user {
+  .initials {
+    font-weight: bold;
+    color: nb-theme(color-basic-600);
+  }
+}
+
+a,
+#top-nav a {
+  font-weight: bold;
+  text-decoration: none;
+  color: nb-theme(color-basic-600);
+
+  &:hover {
+    color: nb-theme(color-primary-400);
+  }
+}
+
+.nav-link {
+  color: black;
+}
+
+.active {
+  color: nb-theme(color-primary-600);
+}
+
+.my-sidebar {
+  .list-group {
+    margin-top: 30px;
+    padding: unset;
+  }
+
+  .list-group-item {
+    border: none;
+    padding: 5px 0 5px 0;
+  }
+}
+
+@media only screen and (max-device-width: 480px) {
+  #sidenav.expanded {
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+
+    ::ng-deep .main-container {
+      width: 100vw;
+      height: 100vh;
+    }
+  }
+}

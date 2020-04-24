@@ -1,0 +1,40 @@
+<nb-layout>
+  <nb-layout-header id="top-nav" fixed>
+    <nb-icon icon="menu-2" (click)="sidenav.toggle()"></nb-icon>
+
+    <img src="/assets/logo-text.svg" height="24px" style="margin-left: 24px;" />
+
+    <div style="margin-left: auto;">
+      <nb-user class="bold-user" [name]="user?.name" [nbContextMenu]="profileOptions" nbContextMenuTag="profile-menu"> </nb-user>
+    </div>
+  </nb-layout-header>
+
+  <nb-sidebar id="sidenav" #sidenav class="my-sidebar" [responsive]="true" [compactedBreakpoints]="[]">
+    <div style="margin-top: 0px;" (click)="screenWidth < 480 ? sidenav.collapse() : null">
+      <div>
+        <ul class="list-group" (click)="screenWidth < 480 ? sidenav.collapse() : null">
+          <li class="list-group-item list-group-item-action">
+            <a routerLinkActive="active" class="nav-link" routerLink="/home/dashboard">Dashboard</a>
+          </li>
+          <li class="list-group-item list-group-item-action">
+            <a routerLinkActive="active" class="nav-link" routerLink="/home/servers">Servers</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- <nb-sidebar-footer> -->
+    <!-- <div style="position: absolute; bottom: 0; margin-bottom: 20px;">
+      <ul class="list-group" (click)="screenWidth < 480 ? sidenav.collapse() : null">
+        <li class="list-group-item list-group-item-action">
+          <a routerLinkActive="active" class="nav-link" (click)="logoutClicked()">Log Out</a>
+        </li>
+      </ul>
+    </div> -->
+    <!-- </nb-sidebar-footer> -->
+  </nb-sidebar>
+
+  <nb-layout-column class="colored-column-basic">
+    <router-outlet></router-outlet>
+  </nb-layout-column>
+</nb-layout>

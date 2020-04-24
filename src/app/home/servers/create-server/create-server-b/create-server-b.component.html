@@ -1,0 +1,34 @@
+<h4>Customize your server</h4>
+
+<br />
+
+<p>
+  Lorizzle ipsum dolizzle stuff fizzle, consectetuer adipiscing break it down. Nullizzle sapien velizzle, my shizz pimpin', shizzle my
+  nizzle crocodizzle shut the shizzle up, gravida vizzle, dang.
+</p>
+
+<br />
+
+<form (ngSubmit)="onSubmit(form)" #form="ngForm">
+  <div class="form-group col-md-6 offset-3 text-left">
+    <label>Server name:</label>
+    <input nbInput fullWidth type="text" placeholder="Server name" class="form-control" [(ngModel)]="formData.name" name="name" required />
+  </div>
+
+  <div class="form-group col-md-6 offset-3 text-left">
+    <label>Server description:</label>
+    <textarea
+      nbInput
+      fullWidth
+      type="text"
+      placeholder="A snazzy description of your server"
+      class="form-control"
+      [(ngModel)]="formData.description"
+      name="description"
+      required
+    ></textarea>
+  </div>
+</form>
+
+<button nbButton nbStepperPrevious>prev</button>
+<button nbButton (click)="onSubmit(form)" [disabled]="!form.valid">next</button>
