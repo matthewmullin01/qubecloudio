@@ -8,6 +8,7 @@ import { IServer } from 'src/shared/models/server.model';
 })
 export class CreateServerService {
   server: IServer = {} as any;
+  plan: IPlan = {} as any;
   stepper: NbStepperComponent;
 
   constructor() {}

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { plans as _plans, IPlan } from 'src/shared/models/plan.model';
 import { CreateServerService } from '../create-server.service';
 
+// TODO - Make UI of plan selection prettier (see https://cubedhost.com/plans)
 @Component({
   selector: 'app-create-server-a',
   templateUrl: './create-server-a.component.html',
@@ -17,7 +18,7 @@ export class CreateServerAComponent implements OnInit {
   selectClicked(plan: IPlan) {
     console.log('clicked');
 
-    this.createServerSvc.server.plan = plan;
+    this.createServerSvc.plan = plan;
     this.createServerSvc.stepper.next();
   }
 }

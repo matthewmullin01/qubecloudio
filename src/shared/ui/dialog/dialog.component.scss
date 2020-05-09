@@ -1,0 +1,19 @@
+.responsive-flex {
+  display: flex;
+  justify-content: space-evenly;
+  button {
+    margin: 3px 3px;
+  }
+}
+
+@media (max-width: 768px) {
+  .responsive-flex {
+    display: block;
+
+    button {
+      max-width: 82vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}

@@ -1,0 +1,76 @@
+<nb-card>
+  <nb-card-body>
+    <div>
+      <h5>{{ server.name }}</h5>
+      <p style="height: 3.5em;"><span style="color: darkgrey; max-lines: 2;"> {{ server.description }} </span></p>
+    </div>
+
+    <ng-container *ngIf="server.vmInfo?.publicIP; then ipButtonRef; else loadingRef"></ng-container>
+
+    <div class="key-val-wrapper">
+      <div class="key-val">
+        <p class="key">Location</p>
+        <p class="val">{{ fullLocation }}</p>
+      </div>
+
+      <div class="key-val">
+        <p class="key">Plan</p>
+        <p class="val">{{ server.planId }}</p>
+      </div>
+
+      <div class="key-val">
+        <p class="key">Version</p>
+        <p class="val">{{ server.jarVersion }}</p>
+      </div>
+    </div>
+
+    <nb-actions size="small" fullWidth>
+      <nb-action icon="star-outline" (click)="getStatus()"></nb-action>
+      <nb-action icon="list-outline" (click)="getLogs()"></nb-action>
+      <nb-action icon="settings-outline" [nbContextMenu]="extraOptions" [nbContextMenuTag]="'server-menu-' + server.uid"></nb-action>
+    </nb-actions>
+  </nb-card-body>
+</nb-card>
+
+<ng-template #loadingRef>
+  <div class="ip-address-wrapper">
+    <button
+      class="ip-address"
+      nbButton
+      fullWidth
+      shape="round"
+      outline
+      status="success"
+      style="pointer-events: none;"
+      [nbSpinner]="true"
+      nbSpinnerStatus="warning"
+      nbSpinnerMessage="Provisioning IP"
+    >
+      <span style="color: transparent;">das</span>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #ipButtonRef>
+  <div class="ip-address-wrapper">
+    <button
+      class="ip-address"
+      nbButton
+      fullWidth
+      shape="round"
+      outline
+      status="success"
+      [nbPopover]="popoverRef"
+      (click)="ipClicked(server.vmInfo?.publicIP)"
+    >
+      {{ server.vmInfo?.publicIP }}
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #popoverRef>
+  <div style="border-radius: 4px; padding: 10px; text-align: center;">
+    <div>Copied to clipboard!</div>
+    <div><small style="color: grey;">Paste this into the Minecraft Server Address field</small></div>
+  </div>
+</ng-template>

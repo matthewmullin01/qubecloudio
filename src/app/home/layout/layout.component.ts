@@ -37,9 +37,9 @@ export class LayoutComponent implements OnInit {
   }
 
   async ngOnInit() {
-    const user = await this.ss.getUser();
+    this.user = await this.ss.getUser();
     this.afs
-      .doc(`users/${user.uid}`)
+      .doc(`users/${this.user.uid}`)
       .valueChanges()
       .subscribe((snap: IUser) => (this.user = snap));
 

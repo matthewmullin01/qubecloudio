@@ -1,0 +1,58 @@
+.ip-address-wrapper {
+  .ip-address {
+    padding: 0.8em;
+    color: #00dc9d;
+    font-weight: bold;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+    font-size: 1.15em;
+  }
+}
+
+// .ip-address-wrapper {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   margin-left: auto;
+//   margin-right: auto;
+//   border: 1px solid #00dc9d;
+//   border-radius: 2em;
+//   background-color: #effcf7;
+
+//   .ip-address {
+//     padding: 0.8em;
+//     color: #00dc9d;
+//     font-weight: bold;
+//     font-size: 1.15em;
+//   }
+// }
+
+.key-val-wrapper {
+  min-height: 80px;
+  margin-top: 3em;
+  margin-bottom: 2em;
+  display: flex;
+  align-items: center;
+  // justify-content: space-evenly;
+
+  .key-val {
+    text-align: center;
+    width: 33%;
+
+    .key {
+      text-transform: uppercase;
+      color: darkgrey;
+      margin-bottom: 0.2em;
+
+      font-size: 0.9em;
+    }
+
+    .val {
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 0.9em;
+    }
+  }
+}

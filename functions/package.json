@@ -12,7 +12,7 @@
   "engines": {
     "node": "10"
   },
-  "main": "lib/index.js",
+  "main": "lib/functions/src/index.js",
   "dependencies": {
     "@google-cloud/compute": "^1.2.0",
     "axios": "^0.19.2",

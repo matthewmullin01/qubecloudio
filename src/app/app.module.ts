@@ -35,7 +35,10 @@ import {
   NbContextMenuModule,
   NbMenuModule,
   NbStepperModule,
-  NbListModule
+  NbListModule,
+  NbSelectModule,
+  NbPopoverModule,
+  NbDialogModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -43,6 +46,11 @@ import { CreateServerComponent } from './home/servers/create-server/create-serve
 import { CreateServerAComponent } from './home/servers/create-server/create-server-a/create-server-a.component';
 import { CreateServerBComponent } from './home/servers/create-server/create-server-b/create-server-b.component';
 import { CreateServerPayComponent } from './home/servers/create-server/create-server-pay/create-server-pay.component';
+import { ServerComponent } from './home/servers/server/server.component';
+import { DialogComponent } from 'src/shared/ui/dialog/dialog.component';
+import { ServerConfigComponent } from './home/servers/server/server-config/server-config.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ServerLogsComponent } from './home/servers/server/server-logs/server-logs.component';
 
 @NgModule({
   declarations: [
@@ -56,11 +64,16 @@ import { CreateServerPayComponent } from './home/servers/create-server/create-se
     CreateServerComponent,
     CreateServerAComponent,
     CreateServerBComponent,
-    CreateServerPayComponent
+    CreateServerPayComponent,
+    DialogComponent,
+    ServerComponent,
+    ServerConfigComponent,
+    ServerLogsComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
@@ -71,9 +84,11 @@ import { CreateServerPayComponent } from './home/servers/create-server/create-se
     NbSidebarModule.forRoot(),
     NbToastrModule.forRoot(),
     NbMenuModule.forRoot(),
+    NbDialogModule.forRoot(),
     NbEvaIconsModule,
     NbStepperModule,
     NbContextMenuModule,
+    NbSelectModule,
     NbLayoutModule,
     NbUserModule,
     NbListModule,
@@ -84,9 +99,10 @@ import { CreateServerPayComponent } from './home/servers/create-server/create-se
     NbButtonModule,
     NbCheckboxModule,
     NbIconModule,
-    NbSpinnerModule
+    NbPopoverModule,
+    NbSpinnerModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

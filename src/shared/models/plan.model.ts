@@ -1,7 +1,7 @@
 export interface IPlan {
   name: string;
-  id: string;
-  paypalId: string;
+  id: 'starter' | 'regular' | 'pro' | 'super' | 'ultra';
+  paddlePlanId: string;
   ramSize: number;
   ramClock: number;
   cpuCount: number;
@@ -14,7 +14,7 @@ export const plans: IPlan[] = [
   {
     name: 'Starter',
     id: 'starter',
-    paypalId: 'P-9VP00213B1495674JL2O5MOA',
+    paddlePlanId: '591305',
     ramSize: 0.75,
     ramClock: 2400,
     cpuCount: 1,
@@ -25,7 +25,7 @@ export const plans: IPlan[] = [
   {
     name: 'Regular',
     id: 'regular',
-    paypalId: 'P-6C255962Y4563525JL2O5MTQ',
+    paddlePlanId: '591305',
     ramSize: 1.2,
     ramClock: 2400,
     cpuCount: 1,
@@ -36,7 +36,7 @@ export const plans: IPlan[] = [
   {
     name: 'Pro',
     id: 'pro',
-    paypalId: 'P-6C255962Y4563525JL2O5MTQ',
+    paddlePlanId: '591305',
     ramSize: 3,
     ramClock: 2666,
     cpuCount: 2,
@@ -47,7 +47,7 @@ export const plans: IPlan[] = [
   {
     name: 'Super',
     id: 'super',
-    paypalId: 'P-87T666506T359562JL2O5MXA',
+    paddlePlanId: '591305',
     ramSize: 4,
     ramClock: 2400,
     cpuCount: 2,
@@ -58,7 +58,7 @@ export const plans: IPlan[] = [
   {
     name: 'Ultra',
     id: 'ultra',
-    paypalId: 'P-87T666506T359562JL2O5MXA',
+    paddlePlanId: '591305',
     ramSize: 5,
     ramClock: 2400,
     cpuCount: 4,

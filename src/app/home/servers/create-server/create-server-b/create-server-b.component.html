@@ -28,6 +28,25 @@
       required
     ></textarea>
   </div>
+
+  <div class="form-group col-md-6 offset-3 text-left">
+    <label>Server location (choose your nearest location to gte the best performance):</label>
+
+    <nb-select required fullWidth [(ngModel)]="formData.location" name="location" placeholder="Select location">
+      <nb-option-group *ngFor="let serverLocation of serverLocations" [title]="serverLocation.continent">
+        <nb-option *ngFor="let servers of serverLocation.servers" value="{{ servers.id }}"> {{ servers.location }} </nb-option>
+      </nb-option-group>
+    </nb-select>
+  </div>
+
+  <div class="form-group col-md-6 offset-3 text-left">
+    <label>Version:</label>
+    <nb-select required fullWidth [(ngModel)]="formData.jarUid" name="jarUid" placeholder="Select version">
+      <nb-option *ngFor="let jar of jars$ | async" value="{{ jar.uid }}"
+        >v{{ jar.version }} &nbsp; <small style="color: darkgray;">({{ jar.type }})</small>
+      </nb-option>
+    </nb-select>
+  </div>
 </form>
 
 <button nbButton nbStepperPrevious>prev</button>
