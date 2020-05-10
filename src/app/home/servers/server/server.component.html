@@ -6,9 +6,10 @@
       </div>
       <div class="d-flex justify-content-end align-items-center">
         <nb-badge
+          *ngIf="statusBadgeUI$ | async as statusBadgeUI"
           style="position: unset;"
-          [status]="(statusBadgeUI$ | async)?.status"
-          [text]="(statusBadgeUI$ | async)?.text"
+          [status]="statusBadgeUI?.status"
+          [text]="statusBadgeUI?.text"
           position="top right"
         ></nb-badge>
       </div>

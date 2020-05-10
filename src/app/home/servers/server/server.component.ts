@@ -7,7 +7,8 @@ import { DialogComponent } from 'src/shared/ui/dialog/dialog.component';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ServerLogsComponent } from './server-logs/server-logs.component';
 import { ServerPropertiesComponent } from './server-properties/server-properties.component';
-import { Observable, interval, of, throwError } from 'rxjs';
+import { Observable, interval, of, throwError, timer } from 'rxjs';
+import { ServerResourcesComponent } from './server-resources/server-resources.component';
 
 @Component({
   selector: 'app-server',
@@ -18,7 +19,7 @@ export class ServerComponent implements OnInit {
   @Input() server: IServer;
 
   fullLocation: string;
-  extraOptions: { title: ExtraOptionsMenuEnum }[] = [{ title: 'Delete' }, { title: 'Restart' }, { title: 'Configure' }];
+  extraOptions: { title: ExtraOptionsMenuEnum }[] = [{ title: 'Delete' }, { title: 'Restart' }, { title: 'Resources' }];
 
   status$: Observable<StatusEnum>;
   statusBadgeUI$: Observable<{ status: string; text: string }>;
@@ -58,10 +59,12 @@ export class ServerComponent implements OnInit {
   }
 
   getStatus$() {
-    return interval(1000).pipe(
+    return timer(0, 1000).pipe(
       switchMap((counter) => {
         return this.http.get(`http://${this.server.vmInfo.publicIP}:4000/status`).pipe<StatusEnum>(
           map((data: IStatusResult) => {
+            console.log(data);
+
             return data.version ? 'online' : 'starting';
           })
         );
@@ -90,8 +93,8 @@ export class ServerComponent implements OnInit {
           case 'Restart':
             this.restartServer();
             break;
-          case 'Configure':
-            this.openPropertiesDialog();
+          case 'Resources':
+            this.openResourcesDialog();
             break;
         }
       });
@@ -141,10 +144,13 @@ export class ServerComponent implements OnInit {
     });
   }
 
-  // async getStatus() {
-  //   const status = (await this.http.get(`http://${this.server.vmInfo.publicIP}:4000/status`).toPromise()) as IStatusResult;
-  //   console.log(status);
-  // }
+  openResourcesDialog() {
+    this.dialogService.open(ServerResourcesComponent, {
+      context: {
+        server: this.server,
+      },
+    });
+  }
 
   async restartServer() {
     const res = await this.http.get(`http://${this.server.vmInfo.publicIP}:4000/restart`, { responseType: 'text' }).toPromise();
@@ -176,7 +182,7 @@ export class ServerComponent implements OnInit {
   }
 }
 
-type ExtraOptionsMenuEnum = 'Delete' | 'Restart' | 'Configure';
+type ExtraOptionsMenuEnum = 'Delete' | 'Restart' | 'Resources';
 type StatusEnum = 'starting' | 'offline' | 'online' | null;
 
 interface IStatusResult {

@@ -1,0 +1,15 @@
+#resources-wrapper {
+  .toggle-button {
+    width: 65px;
+  }
+
+  .no-borders-right {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .no-borders-left {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}

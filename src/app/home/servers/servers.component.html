@@ -6,6 +6,8 @@
       <div class="row">
         <div *ngFor="let server of servers$ | async" class="col-lg-4">
           <app-server [server]="server"></app-server>
+
+          <!-- <app-server-resources [server]="server"></app-server-resources> -->
         </div>
       </div>
     </div>

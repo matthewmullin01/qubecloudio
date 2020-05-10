@@ -54,6 +54,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ServerLogsComponent } from './home/servers/server/server-logs/server-logs.component';
 import { SafePipe } from 'src/shared/safe-html.pipe';
 import { ServerPropertiesComponent } from './home/servers/server/server-properties/server-properties.component';
+import { ServerResourcesComponent } from './home/servers/server/server-resources/server-resources.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -74,6 +76,7 @@ import { ServerPropertiesComponent } from './home/servers/server/server-properti
     ServerLogsComponent,
     SafePipe,
     ServerPropertiesComponent,
+    ServerResourcesComponent,
   ],
   imports: [
     BrowserModule,
@@ -85,6 +88,7 @@ import { ServerPropertiesComponent } from './home/servers/server/server-properti
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAnalyticsModule,
     AngularFirestoreModule,
+    ChartsModule,
     NbThemeModule.forRoot(),
     NbSidebarModule.forRoot(),
     NbToastrModule.forRoot(),

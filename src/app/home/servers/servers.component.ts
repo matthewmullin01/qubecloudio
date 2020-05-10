@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-servers',
   templateUrl: './servers.component.html',
-  styleUrls: ['./servers.component.scss']
+  styleUrls: ['./servers.component.scss'],
 })
 export class ServersComponent implements OnInit {
   servers$: Observable<IServer[]>;
@@ -25,7 +25,7 @@ export class ServersComponent implements OnInit {
 
   getServers(): Observable<IServer[]> {
     return this.afs
-      .collection<IServer>('/servers', ref => ref.where('userUid', '==', this.user.uid).where('status', '==', 'active'))
+      .collection<IServer>('/servers', (ref) => ref.where('userUid', '==', this.user.uid).where('status', '==', 'active'))
       .valueChanges();
   }
 }

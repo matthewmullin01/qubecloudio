@@ -5,7 +5,13 @@
   padding: 1rem 1.5rem;
 
   pre {
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
     color: #f8f8f2;
+
+    &::-webkit-scrollbar {
+      display: none; /* Safari and Chrome */
+    }
 
     .log-time {
       color: darkgrey;
