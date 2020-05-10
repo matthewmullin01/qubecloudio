@@ -1,12 +1,13 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, TemplateRef } from '@angular/core';
 import { IServer, serverLocations } from 'src/shared/models/server.model';
-import { filter, map, take } from 'rxjs/operators';
+import { filter, map, take, catchError, switchMap } from 'rxjs/operators';
 import { NbMenuService, NbDialogService, NbToastrService } from '@nebular/theme';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { DialogComponent } from 'src/shared/ui/dialog/dialog.component';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ServerLogsComponent } from './server-logs/server-logs.component';
 import { ServerPropertiesComponent } from './server-properties/server-properties.component';
+import { Observable, interval, of, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-server',
@@ -19,6 +20,9 @@ export class ServerComponent implements OnInit {
   fullLocation: string;
   extraOptions: { title: ExtraOptionsMenuEnum }[] = [{ title: 'Delete' }, { title: 'Restart' }, { title: 'Configure' }];
 
+  status$: Observable<StatusEnum>;
+  statusBadgeUI$: Observable<{ status: string; text: string }>;
+
   constructor(
     private nbMenuService: NbMenuService,
     private afs: AngularFirestore,
@@ -29,7 +33,47 @@ export class ServerComponent implements OnInit {
 
   ngOnInit(): void {
     this.fullLocation = this.mapGoogleLocationToArea(this.server.location);
+    this.handleMenu();
+    this.status$ = this.getStatus$();
+    this.statusBadgeUI$ = this.getStatusBadgeUI$();
+  }
 
+  private getStatusBadgeUI$() {
+    console.log('Initing');
+
+    return this.status$.pipe(
+      map((status) => {
+        console.log({ status });
+
+        switch (status) {
+          case 'offline':
+            return { status: 'warning', text: 'Offline' };
+          case 'online':
+            return { status: 'success', text: 'Online' };
+          case 'starting':
+            return { status: 'info', text: 'Starting' };
+        }
+      })
+    );
+  }
+
+  getStatus$() {
+    return interval(1000).pipe(
+      switchMap((counter) => {
+        return this.http.get(`http://${this.server.vmInfo.publicIP}:4000/status`).pipe<StatusEnum>(
+          map((data: IStatusResult) => {
+            return data.version ? 'online' : 'starting';
+          })
+        );
+      }),
+      catchError((error) => {
+        console.log(error);
+        return of('offline') as Observable<StatusEnum>;
+      })
+    );
+  }
+
+  handleMenu() {
     this.nbMenuService
       .onItemClick()
       .pipe(
@@ -97,13 +141,13 @@ export class ServerComponent implements OnInit {
     });
   }
 
-  async getStatus() {
-    const status = (await this.http.get(`http://${this.server.vmInfo.publicIP}:4000/status`).toPromise()) as IStatusResult;
-    console.log(status);
-  }
+  // async getStatus() {
+  //   const status = (await this.http.get(`http://${this.server.vmInfo.publicIP}:4000/status`).toPromise()) as IStatusResult;
+  //   console.log(status);
+  // }
 
   async restartServer() {
-    const res = await this.http.get(`http://${this.server.vmInfo.publicIP}:4000/restart`).toPromise();
+    const res = await this.http.get(`http://${this.server.vmInfo.publicIP}:4000/restart`, { responseType: 'text' }).toPromise();
     console.log(res);
   }
 
@@ -133,6 +177,7 @@ export class ServerComponent implements OnInit {
 }
 
 type ExtraOptionsMenuEnum = 'Delete' | 'Restart' | 'Configure';
+type StatusEnum = 'starting' | 'offline' | 'online' | null;
 
 interface IStatusResult {
   host: string;

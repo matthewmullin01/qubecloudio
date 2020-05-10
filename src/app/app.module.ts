@@ -39,6 +39,7 @@ import {
   NbSelectModule,
   NbPopoverModule,
   NbDialogModule,
+  NbBadgeModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -91,6 +92,7 @@ import { ServerPropertiesComponent } from './home/servers/server/server-properti
     NbDialogModule.forRoot(),
     NbEvaIconsModule,
     NbStepperModule,
+    NbBadgeModule,
     NbContextMenuModule,
     NbSelectModule,
     NbLayoutModule,

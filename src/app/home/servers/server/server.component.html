@@ -1,9 +1,19 @@
 <nb-card>
   <nb-card-body>
-    <div>
-      <h5>{{ server.name }}</h5>
-      <p style="height: 3.5em;"><span style="color: darkgrey; max-lines: 2;"> {{ server.description }} </span></p>
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h5>{{ server.name }}</h5>
+      </div>
+      <div class="d-flex justify-content-end align-items-center">
+        <nb-badge
+          style="position: unset;"
+          [status]="(statusBadgeUI$ | async)?.status"
+          [text]="(statusBadgeUI$ | async)?.text"
+          position="top right"
+        ></nb-badge>
+      </div>
     </div>
+    <p style="height: 3.5em;"><span style="color: darkgrey; max-lines: 2;"> {{ server.description }} </span></p>
 
     <ng-container *ngIf="server.vmInfo?.publicIP; then ipButtonRef; else loadingRef"></ng-container>
 
@@ -25,7 +35,7 @@
     </div>
 
     <nb-actions size="small" fullWidth>
-      <nb-action icon="star-outline" (click)="getStatus()"></nb-action>
+      <nb-action icon="edit-outline" (click)="openPropertiesDialog()"></nb-action>
       <nb-action icon="list-outline" (click)="openLogsDialog()"></nb-action>
       <nb-action icon="settings-outline" [nbContextMenu]="extraOptions" [nbContextMenuTag]="'server-menu-' + server.uid"></nb-action>
     </nb-actions>
