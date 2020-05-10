@@ -51,6 +51,8 @@ import { DialogComponent } from 'src/shared/ui/dialog/dialog.component';
 import { ServerConfigComponent } from './home/servers/server/server-config/server-config.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ServerLogsComponent } from './home/servers/server/server-logs/server-logs.component';
+import { SafePipe } from 'src/shared/safe-html.pipe';
+import { ServerPropertiesComponent } from './home/servers/server/server-properties/server-properties.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +71,8 @@ import { ServerLogsComponent } from './home/servers/server/server-logs/server-lo
     ServerComponent,
     ServerConfigComponent,
     ServerLogsComponent,
+    SafePipe,
+    ServerPropertiesComponent,
   ],
   imports: [
     BrowserModule,

@@ -26,7 +26,7 @@
 
     <nb-actions size="small" fullWidth>
       <nb-action icon="star-outline" (click)="getStatus()"></nb-action>
-      <nb-action icon="list-outline" (click)="getLogs()"></nb-action>
+      <nb-action icon="list-outline" (click)="openLogsDialog()"></nb-action>
       <nb-action icon="settings-outline" [nbContextMenu]="extraOptions" [nbContextMenuTag]="'server-menu-' + server.uid"></nb-action>
     </nb-actions>
   </nb-card-body>

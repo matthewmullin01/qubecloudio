@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { NbDialogService, NbDialogRef } from '@nebular/theme';
+import { NbDialogRef } from '@nebular/theme';
 
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
-  styleUrls: ['./dialog.component.scss']
+  styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent implements OnInit {
   @Input()
@@ -20,7 +20,7 @@ export class DialogComponent implements OnInit {
 
   confirmLoading = false;
 
-  constructor(private dialogService: NbDialogService, protected dialogRef: NbDialogRef<DialogComponent>) {}
+  constructor(protected dialogRef: NbDialogRef<DialogComponent>) {}
 
   ngOnInit() {}
 

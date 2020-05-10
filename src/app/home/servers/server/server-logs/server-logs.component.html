@@ -1,1 +1,3 @@
-<p>server-logs works!</p>
+<nb-card #wrapper class="dark-code" style="max-width: 95vw; max-height: 50vh; width: 1200px;">
+  <pre *ngIf="logs" [innerHtml]="logs | safe"></pre>
+</nb-card>

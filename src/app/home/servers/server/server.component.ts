@@ -5,6 +5,8 @@ import { NbMenuService, NbDialogService, NbToastrService } from '@nebular/theme'
 import { AngularFirestore } from '@angular/fire/firestore';
 import { DialogComponent } from 'src/shared/ui/dialog/dialog.component';
 import { HttpClient } from '@angular/common/http';
+import { ServerLogsComponent } from './server-logs/server-logs.component';
+import { ServerPropertiesComponent } from './server-properties/server-properties.component';
 
 @Component({
   selector: 'app-server',
@@ -45,7 +47,7 @@ export class ServerComponent implements OnInit {
             this.restartServer();
             break;
           case 'Configure':
-            this.getServerProps();
+            this.openPropertiesDialog();
             break;
         }
       });
@@ -79,14 +81,20 @@ export class ServerComponent implements OnInit {
     }
   }
 
-  async getServerProps() {
-    const props = (await this.http.get(`http://${this.server.vmInfo.publicIP}:4000/props`).toPromise()) as {};
-    console.log(props);
+  openLogsDialog() {
+    this.dialogService.open(ServerLogsComponent, {
+      context: {
+        server: this.server,
+      },
+    });
   }
 
-  async getLogs() {
-    const logs = (await this.http.get(`http://${this.server.vmInfo.publicIP}:4000/logs`).toPromise()) as { logs: string };
-    console.log(logs.logs);
+  openPropertiesDialog() {
+    this.dialogService.open(ServerPropertiesComponent, {
+      context: {
+        server: this.server,
+      },
+    });
   }
 
   async getStatus() {
