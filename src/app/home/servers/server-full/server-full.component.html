@@ -1,0 +1,65 @@
+<div *ngIf="server$ | async as server">
+  <div class="row">
+    <div class="col-md-12" style="margin-bottom: 50px;">
+      <!-- Header Card -->
+      <!-- <nb-card>
+        <nb-card-body>
+          <h4>{{ server.name }}</h4>
+          <p>{{ server.description }}</p>
+        </nb-card-body>
+      </nb-card> -->
+
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center">
+          <button shape="semi-round" style="pointer-events: none;" nbButton hero status="info">
+            <nb-icon icon="hard-drive"></nb-icon>
+          </button>
+          <h5 style="margin-bottom: 0; margin-left: 14px; color: #6b6b6b;">{{ server.name }}</h5>
+        </div>
+
+        <div>
+          <nb-actions size="small" fullWidth>
+            <nb-action icon="refresh-outline" (click)="openRestartDialog()"></nb-action>
+            <nb-action icon="close-outline" (click)="openDeleteDialog()"></nb-action>
+            <nb-action icon="edit-outline" (click)="openPropertiesDialog()"></nb-action>
+          </nb-actions>
+        </div>
+
+        <!-- </div> -->
+      </div>
+      <!-- <div class="col-md-3">
+
+      <nb-card>
+        <nb-card-body>
+          <h6>PLAYER COUNT</h6>
+          <p>3</p>
+        </nb-card-body>
+      </nb-card>
+    </div>
+    <div class="col-md-3">
+      <nb-card>
+        <nb-card-body>
+          <h6>STORAGE USED</h6>
+          <p>234 MB of 10 GB</p>
+        </nb-card-body>
+      </nb-card> -->
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-9">
+      <div>
+        <!-- Resources Card -->
+        <app-server-resources [server]="server"></app-server-resources>
+      </div>
+      <div>
+        <!-- Logs Card -->
+        <app-server-logs [server]="server"></app-server-logs>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <!-- Settings Card -->
+      <app-server-properties [server]="server"></app-server-properties>
+    </div>
+  </div>
+</div>

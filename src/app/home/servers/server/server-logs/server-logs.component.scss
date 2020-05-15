@@ -27,3 +27,13 @@
     }
   }
 }
+
+::ng-deep {
+  nb-dialog-container {
+    #wrapper-logs {
+      max-width: 95vw;
+      max-height: 50vh;
+      width: 1200px;
+    }
+  }
+}

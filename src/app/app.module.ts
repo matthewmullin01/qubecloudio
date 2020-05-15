@@ -49,13 +49,13 @@ import { CreateServerBComponent } from './home/servers/create-server/create-serv
 import { CreateServerPayComponent } from './home/servers/create-server/create-server-pay/create-server-pay.component';
 import { ServerComponent } from './home/servers/server/server.component';
 import { DialogComponent } from 'src/shared/ui/dialog/dialog.component';
-import { ServerConfigComponent } from './home/servers/server/server-config/server-config.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ServerLogsComponent } from './home/servers/server/server-logs/server-logs.component';
 import { SafePipe } from 'src/shared/safe-html.pipe';
 import { ServerPropertiesComponent } from './home/servers/server/server-properties/server-properties.component';
 import { ServerResourcesComponent } from './home/servers/server/server-resources/server-resources.component';
 import { ChartsModule } from 'ng2-charts';
+import { ServerFullComponent } from './home/servers/server-full/server-full.component';
 
 @NgModule({
   declarations: [
@@ -72,11 +72,11 @@ import { ChartsModule } from 'ng2-charts';
     CreateServerPayComponent,
     DialogComponent,
     ServerComponent,
-    ServerConfigComponent,
     ServerLogsComponent,
     SafePipe,
     ServerPropertiesComponent,
     ServerResourcesComponent,
+    ServerFullComponent,
   ],
   imports: [
     BrowserModule,

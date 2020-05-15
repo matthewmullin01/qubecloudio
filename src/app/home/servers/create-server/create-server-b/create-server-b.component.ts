@@ -13,11 +13,12 @@ import { take, find } from 'rxjs/operators';
 @Component({
   selector: 'app-create-server-b',
   templateUrl: './create-server-b.component.html',
-  styleUrls: ['./create-server-b.component.scss']
+  styleUrls: ['./create-server-b.component.scss'],
 })
 export class CreateServerBComponent implements OnInit {
   user: IUser;
 
+  serverLocations = _serverLocations;
   formData: {
     name: string;
     description: string;
@@ -26,11 +27,10 @@ export class CreateServerBComponent implements OnInit {
   } = {
     name: null,
     description: null,
-    location: null,
-    jarUid: null
+    location: 'us-west2',
+    jarUid: null,
   };
 
-  serverLocations = _serverLocations;
   jars$: Observable<IJar[]>;
 
   constructor(private createServerSvc: CreateServerService, private afs: AngularFirestore, private ss: SharedService) {}
@@ -47,7 +47,7 @@ export class CreateServerBComponent implements OnInit {
 
   getJars(): Observable<IJar[]> {
     return this.afs
-      .collection<IJar>('/jars', ref => ref.orderBy('version', 'desc'))
+      .collection<IJar>('/jars', (ref) => ref.orderBy('version', 'desc'))
       .valueChanges();
   }
 
@@ -56,7 +56,7 @@ export class CreateServerBComponent implements OnInit {
       return;
     }
 
-    const selectedJar = (await this.jars$.pipe(take(1)).toPromise()).find(a => a.uid === this.formData.jarUid);
+    const selectedJar = (await this.jars$.pipe(take(1)).toPromise()).find((a) => a.uid === this.formData.jarUid);
 
     this.createServerSvc.server = {
       uid: this.afs.createId(),
@@ -75,7 +75,7 @@ export class CreateServerBComponent implements OnInit {
       planId: this.createServerSvc.plan.id,
       paddleSubscriptionId: null, // This is set via paddle webhook in CF
       paddlePlanId: this.createServerSvc.plan.paddlePlanId,
-      vmInfo: null // This is set via createSever webhook
+      vmInfo: null, // This is set via createSever webhook
     };
 
     console.log(this.createServerSvc.server);

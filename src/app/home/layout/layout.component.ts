@@ -6,17 +6,20 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { IUser } from 'src/shared/models/user.model';
 import { filter, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { IServer } from 'src/shared/models/server.model';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+  styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent implements OnInit {
   sideNavMode = 'side';
   screenWidth: number;
   screenHeight: number;
   user: IUser;
+  servers$: Observable<IServer[]>;
 
   profileOptions: { title: ProfileMenuEnum }[] = [{ title: 'Profile' }, { title: 'Logout' }];
 
@@ -38,6 +41,8 @@ export class LayoutComponent implements OnInit {
 
   async ngOnInit() {
     this.user = await this.ss.getUser();
+    this.servers$ = this.getServers();
+
     this.afs
       .doc(`users/${this.user.uid}`)
       .valueChanges()
@@ -54,6 +59,12 @@ export class LayoutComponent implements OnInit {
           this.logoutClicked();
         }
       });
+  }
+
+  getServers(): Observable<IServer[]> {
+    return this.afs
+      .collection<IServer>('/servers', (ref) => ref.where('userUid', '==', this.user.uid).where('status', '==', 'active'))
+      .valueChanges();
   }
 
   // Add this function to get the screen size

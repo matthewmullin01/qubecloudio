@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { IServer } from 'src/shared/models/server.model';
 import { NbDialogRef } from '@nebular/theme';
 import { HttpClient } from '@angular/common/http';
@@ -12,7 +12,7 @@ import * as moment from 'moment';
   templateUrl: './server-resources.component.html',
   styleUrls: ['./server-resources.component.scss'],
 })
-export class ServerResourcesComponent implements OnInit {
+export class ServerResourcesComponent implements OnInit, OnDestroy {
   @Input()
   server: IServer;
 
@@ -21,7 +21,10 @@ export class ServerResourcesComponent implements OnInit {
   resources$: Observable<IResourceUsage[]>;
 
   selectedTime: 5 | 10 | 30 | 60 = 10;
-  chartData: ChartDataSets[];
+  chartData: ChartDataSets[] = [
+    { label: 'CPU', data: [] },
+    { label: 'RAM', data: [] },
+  ];
 
   loading = false;
 
@@ -46,11 +49,19 @@ export class ServerResourcesComponent implements OnInit {
     responsive: true,
   };
 
-  constructor(protected dialogRef: NbDialogRef<ServerResourcesComponent>, private http: HttpClient) {}
+  constructor(
+    // protected dialogRef: NbDialogRef<ServerResourcesComponent>,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
     this.getInitialResources$ = this.getInitialResources().subscribe();
     this.startPollingResources$ = this.startPollingResources().subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.getInitialResources$.unsubscribe();
+    this.startPollingResources$.unsubscribe();
   }
 
   getInitialResources() {

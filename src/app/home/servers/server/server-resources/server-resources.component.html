@@ -1,4 +1,5 @@
-<nb-card style="max-width: 95vw; width: 1000px;" id="resources-wrapper">
+<nb-card id="resources-wrapper">
+  <!-- <nb-card style="max-width: 95vw; width: 1000px;" id="resources-wrapper"> -->
   <nb-card-header>
     <div class="d-flex align-items-center justify-content-between">
       <div>
@@ -45,7 +46,8 @@
     </div>
   </nb-card-header>
 
-  <nb-card-body style="max-height: 50vh; min-height: 50vh;" [nbSpinner]="loading">
+  <!-- <nb-card-body style="max-height: 50vh; min-height: 50vh; display: flex; align-items: center;" [nbSpinner]="loading"> -->
+  <nb-card-body [nbSpinner]="loading">
     <div *ngIf="chartData">
       <canvas baseChart [datasets]="chartData" [options]="chartOptions" [chartType]="'line'"></canvas>
     </div>

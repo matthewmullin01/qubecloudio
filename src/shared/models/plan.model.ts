@@ -3,7 +3,6 @@ export interface IPlan {
   id: 'starter' | 'regular' | 'pro' | 'super' | 'ultra';
   paddlePlanId: string;
   ramSize: number;
-  ramClock: number;
   cpuCount: number;
   cpuClock: number;
   recommendedPlayers: string;
@@ -15,55 +14,50 @@ export const plans: IPlan[] = [
     name: 'Starter',
     id: 'starter',
     paddlePlanId: '591305',
-    ramSize: 0.75,
-    ramClock: 2400,
+    ramSize: 1.75,
     cpuCount: 1,
-    cpuClock: 2.4,
-    recommendedPlayers: '1-2',
-    price: 10
+    cpuClock: 1.2,
+    recommendedPlayers: '1 - 2',
+    price: 30,
   },
   {
     name: 'Regular',
     id: 'regular',
     paddlePlanId: '591305',
-    ramSize: 1.2,
-    ramClock: 2400,
+    ramSize: 2,
     cpuCount: 1,
-    cpuClock: 2.4,
-    recommendedPlayers: '2-3',
-    price: 14
+    cpuClock: 1.2,
+    recommendedPlayers: '2 - 3',
+    price: 40,
   },
   {
     name: 'Pro',
     id: 'pro',
     paddlePlanId: '591305',
     ramSize: 3,
-    ramClock: 2666,
-    cpuCount: 2,
-    cpuClock: 2.4,
-    recommendedPlayers: '5-10',
-    price: 20
+    cpuCount: 1,
+    cpuClock: 1.2,
+    recommendedPlayers: '5 - 10',
+    price: 50,
   },
   {
     name: 'Super',
     id: 'super',
     paddlePlanId: '591305',
     ramSize: 4,
-    ramClock: 2400,
     cpuCount: 2,
-    cpuClock: 3.2,
-    recommendedPlayers: '10-20',
-    price: 30
+    cpuClock: 2.2,
+    recommendedPlayers: '10 - 20',
+    price: 70,
   },
   {
     name: 'Ultra',
     id: 'ultra',
     paddlePlanId: '591305',
-    ramSize: 5,
-    ramClock: 2400,
+    ramSize: 6,
     cpuCount: 4,
-    cpuClock: 2.4,
-    recommendedPlayers: '20-30',
-    price: 40
-  }
+    cpuClock: 4.2,
+    recommendedPlayers: '20 - 30',
+    price: 100,
+  },
 ];

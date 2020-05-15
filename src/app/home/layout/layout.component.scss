@@ -36,6 +36,13 @@ a,
     border: none;
     padding: 5px 0 5px 0;
   }
+
+  .sub-list {
+    margin-top: 0px;
+    .list-group-item {
+      padding-left: 10px;
+    }
+  }
 }
 
 @media only screen and (max-device-width: 480px) {
@@ -49,4 +56,8 @@ a,
       height: 100vh;
     }
   }
+}
+
+.svg-inline--fa {
+  font-size: 2rem !important;
 }

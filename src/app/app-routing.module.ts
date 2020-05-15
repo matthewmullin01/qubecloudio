@@ -6,6 +6,9 @@ import { RegisterComponent } from './auth/register/register.component';
 import { HomeComponent } from './home/home.component';
 import { ServersComponent } from './home/servers/servers.component';
 import { AuthService } from 'src/shared/services/auth.service';
+import { ServerFullComponent } from './home/servers/server-full/server-full.component';
+import { ServerResolver } from './home/servers/server-full/server.resolver';
+import { CreateServerComponent } from './home/servers/create-server/create-server.component';
 
 const routes: Routes = [
   {
@@ -14,13 +17,13 @@ const routes: Routes = [
     children: [
       {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
       },
       {
         path: 'register',
-        component: RegisterComponent
-      }
-    ]
+        component: RegisterComponent,
+      },
+    ],
   },
   {
     path: 'home',
@@ -28,19 +31,21 @@ const routes: Routes = [
     canActivate: [AuthService],
     children: [
       { path: 'dashboard', component: ServersComponent },
-      { path: 'servers', component: ServersComponent }
-    ]
+      { path: 'create-server', component: CreateServerComponent },
+      { path: 'servers', component: ServersComponent },
+      { path: 'servers/:serverUid', component: ServerFullComponent, resolve: { server$: ServerResolver } },
+    ],
   },
   {
     path: '',
     redirectTo: 'home/servers',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
-  { path: '**', redirectTo: 'home/servers' }
+  { path: '**', redirectTo: 'home/servers' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

@@ -1,8 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IServer } from 'src/shared/models/server.model';
-import { NbDialogRef } from '@nebular/theme';
+import { NbDialogRef, NbToastrService, NbDialogService } from '@nebular/theme';
 import { HttpClient } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
+import { DialogComponent } from 'src/shared/ui/dialog/dialog.component';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-server-properties',
@@ -18,7 +20,12 @@ export class ServerPropertiesComponent implements OnInit {
 
   loading = false;
 
-  constructor(protected dialogRef: NbDialogRef<ServerPropertiesComponent>, private http: HttpClient) {}
+  constructor(
+    // protected dialogRef: NbDialogRef<ServerPropertiesComponent>,
+    private http: HttpClient,
+    private toastr: NbToastrService,
+    private dialogService: NbDialogService
+  ) {}
 
   async ngOnInit() {
     const rawProps = await this.getServerProps();
@@ -33,8 +40,33 @@ export class ServerPropertiesComponent implements OnInit {
       return;
     }
 
-    await this.updateServerProps(form.value);
-    await this.restartServer();
+    const result = await this.openUpdateDialog();
+
+    if (result === 'confirm') {
+      try {
+        await this.updateServerProps(form.value);
+        await this.restartServer();
+        this.toastr.info(`Server has updated and restarted`, 'Restarted');
+      } catch (error) {
+        console.error(error);
+        alert(error);
+      }
+    }
+  }
+
+  async openUpdateDialog() {
+    return await this.dialogService
+      .open(DialogComponent, {
+        context: {
+          title: 'Apply Changes',
+          body: `To apply these changes we will need to restart the server. This may take a few minutes.`,
+          cancel: 'Go Back',
+          confirm: `Apply and Restart Server`,
+          confirmClickDelay: 200,
+        },
+      })
+      .onClose.pipe(take(1))
+      .toPromise();
   }
 
   async getServerProps() {

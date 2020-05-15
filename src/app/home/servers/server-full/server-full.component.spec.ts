@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ServerConfigComponent } from './server-config.component';
+import { ServerFullComponent } from './server-full.component';
 
-describe('ServerConfigComponent', () => {
-  let component: ServerConfigComponent;
-  let fixture: ComponentFixture<ServerConfigComponent>;
+describe('ServerFullComponent', () => {
+  let component: ServerFullComponent;
+  let fixture: ComponentFixture<ServerFullComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ServerConfigComponent ]
+      declarations: [ ServerFullComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ServerConfigComponent);
+    fixture = TestBed.createComponent(ServerFullComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

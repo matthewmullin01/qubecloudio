@@ -13,3 +13,10 @@
     border-bottom-left-radius: 0;
   }
 }
+
+::ng-deep {
+  nb-dialog-container {
+    max-width: 95vw;
+    width: 1000px;
+  }
+}

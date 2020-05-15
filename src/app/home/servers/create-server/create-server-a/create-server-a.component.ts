@@ -6,7 +6,7 @@ import { CreateServerService } from '../create-server.service';
 @Component({
   selector: 'app-create-server-a',
   templateUrl: './create-server-a.component.html',
-  styleUrls: ['./create-server-a.component.scss']
+  styleUrls: ['./create-server-a.component.scss'],
 })
 export class CreateServerAComponent implements OnInit {
   plans = _plans;
@@ -20,5 +20,20 @@ export class CreateServerAComponent implements OnInit {
 
     this.createServerSvc.plan = plan;
     this.createServerSvc.stepper.next();
+  }
+
+  getCpuCountText(count: number) {
+    switch (count) {
+      case 1:
+        return '';
+      case 2:
+        return 'DUAL';
+      case 3:
+        return 'THREE';
+      case 4:
+        return 'QUAD';
+      default:
+        break;
+    }
   }
 }

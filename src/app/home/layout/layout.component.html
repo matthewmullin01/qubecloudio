@@ -2,7 +2,12 @@
   <nb-layout-header id="top-nav" fixed>
     <nb-icon icon="menu-2" (click)="sidenav.toggle()"></nb-icon>
 
-    <img src="/assets/logo-text.svg" height="24px" style="margin-left: 24px;" />
+    <img src="/assets/logo-text.svg" height="24px" style="margin-left: 24px; margin-right: 80px;" />
+
+    <button shape="round" hero status="primary" nbButton routerLink="/home/create-server">
+      <i style="font-size: 0.85em; font-weight: bold; margin-right: 1em;" class="fas fa-plus"></i>
+      Create Server
+    </button>
 
     <div style="margin-left: auto;">
       <nb-user class="bold-user" [name]="user?.name" [nbContextMenu]="profileOptions" nbContextMenuTag="profile-menu"> </nb-user>
@@ -18,6 +23,12 @@
           </li>
           <li class="list-group-item list-group-item-action">
             <a routerLinkActive="active" class="nav-link" routerLink="/home/servers">Servers</a>
+
+            <ul class="list-group sub-list">
+              <li class="list-group-item list-group-item-action" *ngFor="let server of servers$ | async">
+                <a routerLinkActive="active" class="nav-link" [routerLink]="['/home/servers/', server.uid]"> {{ server.name }} </a>
+              </li>
+            </ul>
           </li>
         </ul>
       </div>

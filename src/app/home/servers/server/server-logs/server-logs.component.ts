@@ -14,9 +14,16 @@ export class ServerLogsComponent implements OnInit {
 
   logs: string;
 
-  constructor(protected dialogRef: NbDialogRef<ServerLogsComponent>, private http: HttpClient) {}
+  constructor(
+    // protected dialogRef: NbDialogRef<ServerLogsComponent>,
+    private http: HttpClient
+  ) {}
 
   async ngOnInit() {
+    await this.updateLogs();
+  }
+
+  async updateLogs() {
     const rawLogs = await this.getLogs();
     this.logs = rawLogs
       .split('\n')

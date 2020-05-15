@@ -1,4 +1,4 @@
-<h4>Choose you specs</h4>
+<h4>Choose you Plan</h4>
 
 <br />
 
@@ -9,7 +9,7 @@
 
 <br />
 
-<table class="table">
+<table class="table table-striped">
   <thead>
     <tr>
       <th scope="col">Plan</th>
@@ -17,18 +17,18 @@
       <th scope="col">CPU</th>
       <th scope="col">Recommended Players</th>
       <th scope="col">Price</th>
-      <th scope="col"></th>
+      <th scope="col">Order</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let plan of plans">
+    <tr *ngFor="let plan of plans" style="font-weight: bold;">
       <th scope="row">{{ plan.name }}</th>
-      <td>{{ plan.ramSize + "GB @ " + plan.ramClock + "MHz" }}</td>
-      <td>{{ plan.cpuCount + " x " + plan.cpuClock + "GHz" }}</td>
+      <td>{{ plan.ramSize }} <small> GB </small></td>
+      <td><small>{{ getCpuCountText(plan.cpuCount) }} </small>{{ plan.cpuClock }}<small> Ghz </small></td>
       <td>{{ plan.recommendedPlayers }}</td>
       <td>{{ "$" + plan.price }}</td>
       <td>
-        <button nbButton (click)="selectClicked(plan)">
+        <button shape="round" size="small" nbButton hero status="primary" (click)="selectClicked(plan)">
           Select
         </button>
       </td>

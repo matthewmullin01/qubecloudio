@@ -9,6 +9,7 @@ import { ServerLogsComponent } from './server-logs/server-logs.component';
 import { ServerPropertiesComponent } from './server-properties/server-properties.component';
 import { Observable, interval, of, throwError, timer } from 'rxjs';
 import { ServerResourcesComponent } from './server-resources/server-resources.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-server',
@@ -19,7 +20,7 @@ export class ServerComponent implements OnInit {
   @Input() server: IServer;
 
   fullLocation: string;
-  extraOptions: { title: ExtraOptionsMenuEnum }[] = [{ title: 'Delete' }, { title: 'Restart' }, { title: 'Resources' }];
+  extraOptions: { title: ExtraOptionsMenuEnum }[] = [{ title: 'Settings' }, { title: 'Restart' }, { title: 'Delete' }];
 
   status$: Observable<StatusEnum>;
   statusBadgeUI$: Observable<{ status: string; text: string }>;
@@ -29,7 +30,8 @@ export class ServerComponent implements OnInit {
     private afs: AngularFirestore,
     private http: HttpClient,
     private toastr: NbToastrService,
-    private dialogService: NbDialogService
+    private dialogService: NbDialogService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -91,10 +93,10 @@ export class ServerComponent implements OnInit {
             this.openDeleteDialog();
             break;
           case 'Restart':
-            this.restartServer();
+            this.openRestartDialog();
             break;
-          case 'Resources':
-            this.openResourcesDialog();
+          case 'Settings':
+            this.openPropertiesDialog();
             break;
         }
       });
@@ -111,7 +113,7 @@ export class ServerComponent implements OnInit {
           in case you change your mind.`,
           cancel: 'Go Back',
           confirm: `Delete Server`,
-          confirmClickDelay: 1000,
+          confirmClickDelay: 200,
         },
       })
       .onClose.pipe(take(1))
@@ -121,6 +123,31 @@ export class ServerComponent implements OnInit {
       try {
         await this.deleteServer();
         this.toastr.info(`Server has been closed`, 'Removed');
+      } catch (error) {
+        console.error(error);
+        alert(error);
+      }
+    }
+  }
+
+  async openRestartDialog() {
+    const result = await this.dialogService
+      .open(DialogComponent, {
+        context: {
+          title: 'Restart Server',
+          body: `Are you sure you want to restart the server. It may take a few minutes to come back online`,
+          cancel: 'Go Back',
+          confirm: `Restart Server`,
+          confirmClickDelay: 200,
+        },
+      })
+      .onClose.pipe(take(1))
+      .toPromise();
+
+    if (result === 'confirm') {
+      try {
+        await this.restartServer();
+        this.toastr.info(`Server is restarting`, 'Restarted');
       } catch (error) {
         console.error(error);
         alert(error);
@@ -138,6 +165,7 @@ export class ServerComponent implements OnInit {
 
   openPropertiesDialog() {
     this.dialogService.open(ServerPropertiesComponent, {
+      dialogClass: 'myadialog',
       context: {
         server: this.server,
       },
@@ -182,7 +210,7 @@ export class ServerComponent implements OnInit {
   }
 }
 
-type ExtraOptionsMenuEnum = 'Delete' | 'Restart' | 'Resources';
+type ExtraOptionsMenuEnum = 'Delete' | 'Restart' | 'Settings';
 type StatusEnum = 'starting' | 'offline' | 'online' | null;
 
 interface IStatusResult {
