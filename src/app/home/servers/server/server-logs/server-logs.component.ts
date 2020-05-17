@@ -37,6 +37,9 @@ export class ServerLogsComponent implements OnInit {
   }
 
   async getLogs() {
+    if (!this.server.vmInfo?.publicIP) {
+      return 'Initializing ...';
+    }
     return ((await this.http.get(`http://${this.server.vmInfo.publicIP}:4000/logs`).toPromise()) as { logs: string }).logs;
   }
 }

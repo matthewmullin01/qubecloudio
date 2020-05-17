@@ -1,24 +1,30 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { NbSidebarService, NbMenuService } from '@nebular/theme';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
+import { NbSidebarService, NbMenuService, NbDialogService } from '@nebular/theme';
 import { SharedService } from 'src/shared/services/shared.service';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { IUser } from 'src/shared/models/user.model';
-import { filter, map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { filter, map, takeUntil } from 'rxjs/operators';
+import { Observable, ReplaySubject } from 'rxjs';
 import { IServer } from 'src/shared/models/server.model';
+import { ServersService } from '../servers/servers.service';
+import { ContactUsComponent } from 'src/shared/ui/contact-us/contact-us.component';
+import { ProfileComponent } from 'src/shared/ui/profile/profile.component';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent implements OnInit, OnDestroy {
+  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+
   sideNavMode = 'side';
   screenWidth: number;
   screenHeight: number;
   user: IUser;
+  user$: Observable<IUser>;
   servers$: Observable<IServer[]>;
 
   profileOptions: { title: ProfileMenuEnum }[] = [{ title: 'Profile' }, { title: 'Logout' }];
@@ -30,9 +36,10 @@ export class LayoutComponent implements OnInit {
   }
 
   constructor(
-    private afs: AngularFirestore,
     private afAuth: AngularFireAuth,
     private ss: SharedService,
+    private serversService: ServersService,
+    private dialogService: NbDialogService,
     private sidebarService: NbSidebarService,
     private nbMenuService: NbMenuService
   ) {
@@ -41,30 +48,32 @@ export class LayoutComponent implements OnInit {
 
   async ngOnInit() {
     this.user = await this.ss.getUser();
-    this.servers$ = this.getServers();
+    this.user$ = this.ss.getUser$();
+    this.servers$ = this.serversService.usersServers$;
 
-    this.afs
-      .doc(`users/${this.user.uid}`)
-      .valueChanges()
-      .subscribe((snap: IUser) => (this.user = snap));
+    this.handleMenu();
+  }
 
+  ngOnDestroy() {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
+  }
+
+  private handleMenu() {
     this.nbMenuService
       .onItemClick()
       .pipe(
         filter(({ tag }) => tag === 'profile-menu'),
-        map(({ item: { title } }) => title)
+        map(({ item: { title } }) => title),
+        takeUntil(this.destroyed$)
       )
       .subscribe((title: ProfileMenuEnum) => {
         if (title === 'Logout') {
           this.logoutClicked();
+        } else if (title === 'Profile') {
+          this.profileClicked();
         }
       });
-  }
-
-  getServers(): Observable<IServer[]> {
-    return this.afs
-      .collection<IServer>('/servers', (ref) => ref.where('userUid', '==', this.user.uid).where('status', '==', 'active'))
-      .valueChanges();
   }
 
   // Add this function to get the screen size
@@ -73,13 +82,18 @@ export class LayoutComponent implements OnInit {
     return false;
   }
 
-  // onConvertClicked() {
-  //   this.router.navigateByUrl('/home/dummy', { skipLocationChange: true });
-  //   setTimeout(() => this.router.navigate(['home/convert']));
-  // }
-
   logoutClicked() {
     this.afAuth.signOut();
+  }
+
+  contactUsClicked() {
+    this.dialogService.open(ContactUsComponent);
+  }
+
+  profileClicked() {
+    console.log(this.user);
+
+    this.dialogService.open(ProfileComponent, { context: { user: this.user } });
   }
 }
 

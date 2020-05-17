@@ -40,6 +40,7 @@ import {
   NbPopoverModule,
   NbDialogModule,
   NbBadgeModule,
+  NbTooltipModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -56,6 +57,10 @@ import { ServerPropertiesComponent } from './home/servers/server/server-properti
 import { ServerResourcesComponent } from './home/servers/server/server-resources/server-resources.component';
 import { ChartsModule } from 'ng2-charts';
 import { ServerFullComponent } from './home/servers/server-full/server-full.component';
+import { RouteReuseStrategy } from '@angular/router';
+import { CustomRouteReuseStrategy } from 'src/shared/custom-route-reuse-strategy';
+import { ContactUsComponent } from 'src/shared/ui/contact-us/contact-us.component';
+import { ProfileComponent } from 'src/shared/ui/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +81,8 @@ import { ServerFullComponent } from './home/servers/server-full/server-full.comp
     SafePipe,
     ServerPropertiesComponent,
     ServerResourcesComponent,
+    ContactUsComponent,
+    ProfileComponent,
     ServerFullComponent,
   ],
   imports: [
@@ -99,6 +106,7 @@ import { ServerFullComponent } from './home/servers/server-full/server-full.comp
     NbBadgeModule,
     NbContextMenuModule,
     NbSelectModule,
+    NbTooltipModule,
     NbLayoutModule,
     NbUserModule,
     NbListModule,
@@ -112,7 +120,12 @@ import { ServerFullComponent } from './home/servers/server-full/server-full.comp
     NbPopoverModule,
     NbSpinnerModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: RouteReuseStrategy,
+      useClass: CustomRouteReuseStrategy,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

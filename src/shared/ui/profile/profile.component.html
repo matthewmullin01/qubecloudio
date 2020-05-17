@@ -1,0 +1,44 @@
+<nb-card style="max-width: 95vw; max-height: 95vh; width: 500px;">
+  <nb-card-header> Update Profile </nb-card-header>
+
+  <nb-card-body>
+    <form class="row" #form="ngForm">
+      <div class="form-group col-md-12 text-left">
+        <label>Full name:</label>
+        <input
+          nbInput
+          fullWidth
+          type="text"
+          placeholder="Full name"
+          class="form-control"
+          [(ngModel)]="formData.name"
+          name="name"
+          required
+        />
+      </div>
+
+      <div class="form-group col-md-12 text-left">
+        <label>Email address: <small> (Your email can not be changed) </small></label>
+        <input
+          nbInput
+          fullWidth
+          type="text"
+          placeholder="Email address"
+          class="form-control"
+          [(ngModel)]="formData.email"
+          name="email"
+          required
+          disabled
+        />
+      </div>
+    </form>
+  </nb-card-body>
+
+  <nb-card-footer class="responsive-flex">
+    <button nbButton status="primary" (click)="closeClicked()">Close</button>
+
+    <button type="submit" status="primary" nbButton class="float-right" (click)="onSubmit(form)" [disabled]="!form.valid">
+      Update
+    </button>
+  </nb-card-footer>
+</nb-card>

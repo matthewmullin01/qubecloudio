@@ -21,10 +21,13 @@ export class ServerResourcesComponent implements OnInit, OnDestroy {
   resources$: Observable<IResourceUsage[]>;
 
   selectedTime: 5 | 10 | 30 | 60 = 10;
-  chartData: ChartDataSets[] = [
+
+  emptyChartData: ChartDataSets[] = [
     { label: 'CPU', data: [] },
     { label: 'RAM', data: [] },
   ];
+
+  chartData: ChartDataSets[] = this.emptyChartData;
 
   loading = false;
 
@@ -67,20 +70,27 @@ export class ServerResourcesComponent implements OnInit, OnDestroy {
   getInitialResources() {
     this.loading = true;
     return of('').pipe(
-      switchMap(() => this.http.get(`http://${this.server.vmInfo.publicIP}:4000/resources`) as Observable<IResourceUsage[]>),
-      map((data) => this.getInitialChartData(data)),
+      switchMap(() =>
+        this.server.vmInfo?.publicIP
+          ? (this.http.get(`http://${this.server.vmInfo.publicIP}:4000/resources`) as Observable<IResourceUsage[]>)
+          : (of(null) as null)
+      ),
+      map((data) => data && this.getInitialChartData(data)),
       tap((a) => (this.loading = false))
     );
   }
 
   startPollingResources() {
-    // return of(5000).pipe(
-
     const pollingInterval = ((this.selectedTime * 60) / this.TICKS) * 1000;
 
     return timer(pollingInterval - 2000, pollingInterval).pipe(
-      switchMap(() => this.http.get(`http://${this.server.vmInfo.publicIP}:4000/resources/newest`) as Observable<IResourceUsage>),
-      map((data) => this.updateChartData(data))
+      tap((_) => console.log('Polling Graph Data')),
+      switchMap(() =>
+        this.server.vmInfo?.publicIP
+          ? (this.http.get(`http://${this.server.vmInfo.publicIP}:4000/resources/newest`) as Observable<IResourceUsage>)
+          : (of(null) as null)
+      ),
+      map((data) => data && this.updateChartData(data))
     );
   }
 
@@ -118,8 +128,6 @@ export class ServerResourcesComponent implements OnInit, OnDestroy {
   }
 
   updateChartData(data: IResourceUsage) {
-    console.log('polling data');
-
     const cpuData = {
       x: new Date(data.date),
       y: +data.cpu.replace('%', ''),

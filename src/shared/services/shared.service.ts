@@ -6,14 +6,14 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { IUser } from 'src/shared/models/user.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SharedService {
   private user: IUser;
   private user$: Observable<IUser>;
 
   constructor(private afs: AngularFirestore, private afAuth: AngularFireAuth) {
-    afAuth.user.subscribe(u => {
+    afAuth.user.subscribe((u) => {
       if (u) {
         this.updateUserObservable(u.uid);
       } else {
@@ -29,5 +29,9 @@ export class SharedService {
 
   public getUser(): Promise<IUser> {
     return this.user$.pipe(first()).toPromise();
+  }
+
+  public getUser$(): Observable<IUser> {
+    return this.user$;
   }
 }

@@ -70,7 +70,10 @@ export class ServerPropertiesComponent implements OnInit {
   }
 
   async getServerProps() {
-    return (await this.http.get(`http://${this.server.vmInfo.publicIP}:4000/props`).toPromise()) as {};
+    if (!this.server.vmInfo?.publicIP) {
+      return {};
+    }
+    return (await this.http.get(`http://${this.server.vmInfo.publicIP}:4000/props`).toPromise()) as { [key: string]: string };
   }
 
   async updateServerProps(props: {}) {

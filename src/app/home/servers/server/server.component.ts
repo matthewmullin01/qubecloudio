@@ -1,53 +1,55 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, TemplateRef, OnDestroy } from '@angular/core';
 import { IServer, serverLocations } from 'src/shared/models/server.model';
-import { filter, map, take, catchError, switchMap } from 'rxjs/operators';
+import { filter, map, take, catchError, switchMap, takeUntil } from 'rxjs/operators';
 import { NbMenuService, NbDialogService, NbToastrService } from '@nebular/theme';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { DialogComponent } from 'src/shared/ui/dialog/dialog.component';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ServerLogsComponent } from './server-logs/server-logs.component';
 import { ServerPropertiesComponent } from './server-properties/server-properties.component';
-import { Observable, interval, of, throwError, timer } from 'rxjs';
+import { Observable, interval, of, throwError, timer, ReplaySubject } from 'rxjs';
 import { ServerResourcesComponent } from './server-resources/server-resources.component';
 import { Router } from '@angular/router';
+import { ServersService, ServerStatusEnum } from '../servers.service';
 
 @Component({
   selector: 'app-server',
   templateUrl: './server.component.html',
   styleUrls: ['./server.component.scss'],
 })
-export class ServerComponent implements OnInit {
+export class ServerComponent implements OnInit, OnDestroy {
   @Input() server: IServer;
+
+  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   fullLocation: string;
   extraOptions: { title: ExtraOptionsMenuEnum }[] = [{ title: 'Settings' }, { title: 'Restart' }, { title: 'Delete' }];
 
-  status$: Observable<StatusEnum>;
+  status$: Observable<ServerStatusEnum>;
   statusBadgeUI$: Observable<{ status: string; text: string }>;
 
   constructor(
     private nbMenuService: NbMenuService,
-    private afs: AngularFirestore,
     private http: HttpClient,
-    private toastr: NbToastrService,
-    private dialogService: NbDialogService,
-    private router: Router
+    private serversService: ServersService,
+    private dialogService: NbDialogService
   ) {}
 
   ngOnInit(): void {
     this.fullLocation = this.mapGoogleLocationToArea(this.server.location);
     this.handleMenu();
-    this.status$ = this.getStatus$();
+    this.status$ = this.serversService.getStatus$(this.server);
     this.statusBadgeUI$ = this.getStatusBadgeUI$();
   }
 
-  private getStatusBadgeUI$() {
-    console.log('Initing');
+  ngOnDestroy() {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
+  }
 
+  private getStatusBadgeUI$() {
     return this.status$.pipe(
       map((status) => {
-        console.log({ status });
-
         switch (status) {
           case 'offline':
             return { status: 'warning', text: 'Offline' };
@@ -60,30 +62,13 @@ export class ServerComponent implements OnInit {
     );
   }
 
-  getStatus$() {
-    return timer(0, 1000).pipe(
-      switchMap((counter) => {
-        return this.http.get(`http://${this.server.vmInfo.publicIP}:4000/status`).pipe<StatusEnum>(
-          map((data: IStatusResult) => {
-            console.log(data);
-
-            return data.version ? 'online' : 'starting';
-          })
-        );
-      }),
-      catchError((error) => {
-        console.log(error);
-        return of('offline') as Observable<StatusEnum>;
-      })
-    );
-  }
-
   handleMenu() {
     this.nbMenuService
       .onItemClick()
       .pipe(
         filter(({ tag }) => tag === `server-menu-${this.server.uid}`),
-        map(({ item: { title } }) => title)
+        map(({ item: { title } }) => title),
+        takeUntil(this.destroyed$)
       )
       .subscribe(async (title: ExtraOptionsMenuEnum) => {
         console.log(title);
@@ -103,69 +88,19 @@ export class ServerComponent implements OnInit {
   }
 
   async openDeleteDialog() {
-    const result = await this.dialogService
-      .open(DialogComponent, {
-        context: {
-          title: 'Delete Server',
-          body: `Deleting this server will remove it from you list of active servers and access to the server will be terminated. You will not be
-          billed for this server from the end of the current billing cycle.
-          <br><br> We will keep a backup of your game world for the next three months
-          in case you change your mind.`,
-          cancel: 'Go Back',
-          confirm: `Delete Server`,
-          confirmClickDelay: 200,
-        },
-      })
-      .onClose.pipe(take(1))
-      .toPromise();
-
-    if (result === 'confirm') {
-      try {
-        await this.deleteServer();
-        this.toastr.info(`Server has been closed`, 'Removed');
-      } catch (error) {
-        console.error(error);
-        alert(error);
-      }
-    }
+    this.serversService.openDeleteDialog(this.server);
   }
 
   async openRestartDialog() {
-    const result = await this.dialogService
-      .open(DialogComponent, {
-        context: {
-          title: 'Restart Server',
-          body: `Are you sure you want to restart the server. It may take a few minutes to come back online`,
-          cancel: 'Go Back',
-          confirm: `Restart Server`,
-          confirmClickDelay: 200,
-        },
-      })
-      .onClose.pipe(take(1))
-      .toPromise();
+    this.serversService.openRestartDialog(this.server);
+  }
 
-    if (result === 'confirm') {
-      try {
-        await this.restartServer();
-        this.toastr.info(`Server is restarting`, 'Restarted');
-      } catch (error) {
-        console.error(error);
-        alert(error);
-      }
-    }
+  openPropertiesDialog() {
+    this.serversService.openPropertiesDialog(this.server);
   }
 
   openLogsDialog() {
     this.dialogService.open(ServerLogsComponent, {
-      context: {
-        server: this.server,
-      },
-    });
-  }
-
-  openPropertiesDialog() {
-    this.dialogService.open(ServerPropertiesComponent, {
-      dialogClass: 'myadialog',
       context: {
         server: this.server,
       },
@@ -178,16 +113,6 @@ export class ServerComponent implements OnInit {
         server: this.server,
       },
     });
-  }
-
-  async restartServer() {
-    const res = await this.http.get(`http://${this.server.vmInfo.publicIP}:4000/restart`, { responseType: 'text' }).toPromise();
-    console.log(res);
-  }
-
-  async deleteServer() {
-    const partialUpdate: Partial<IServer> = { status: 'deleted' };
-    return await this.afs.doc(`/servers/${this.server.uid}`).update(partialUpdate);
   }
 
   mapGoogleLocationToArea(location: string) {
@@ -211,17 +136,3 @@ export class ServerComponent implements OnInit {
 }
 
 type ExtraOptionsMenuEnum = 'Delete' | 'Restart' | 'Settings';
-type StatusEnum = 'starting' | 'offline' | 'online' | null;
-
-interface IStatusResult {
-  host: string;
-  port: number;
-  version: string;
-  protocolVersion: number;
-  onlinePlayers: number;
-  maxPlayers: number;
-  samplePlayers: { id: string; name: string }[];
-  descriptionText: string;
-  favicon?: any;
-  modList?: any;
-}

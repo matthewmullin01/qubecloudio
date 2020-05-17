@@ -14,7 +14,7 @@ export const createServer = functions.firestore.document('/servers/{serverUid}')
   const server: IServer = snap.data() as IServer;
 
   try {
-    const vmName = `mc-server-${server.uid.toLocaleLowerCase()}`; // Must be lowercase // TODO make the hash the same as the FS Collection
+    const vmName = `mc-server-${server.uid.toLocaleLowerCase()}`; // Must be lowercase
     const vmConfig: IVMConfig = {
       vmName,
       zone: `${server.location}-b`,
@@ -50,8 +50,6 @@ export const createServer = functions.firestore.document('/servers/{serverUid}')
 });
 
 const createVmConfig = (vmConfig: IVMConfig): any => {
-  // const indexjs = fs.readFileSync('/vm-node/index.js', 'utf8');
-
   return {
     kind: 'compute#instance',
     name: vmConfig.vmName,
