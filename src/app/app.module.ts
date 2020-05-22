@@ -61,6 +61,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { CustomRouteReuseStrategy } from 'src/shared/custom-route-reuse-strategy';
 import { ContactUsComponent } from 'src/shared/ui/contact-us/contact-us.component';
 import { ProfileComponent } from 'src/shared/ui/profile/profile.component';
+import { ServerPropertiesUiComponent } from './home/servers/server/server-properties-ui/server-properties-ui.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { ProfileComponent } from 'src/shared/ui/profile/profile.component';
     ContactUsComponent,
     ProfileComponent,
     ServerFullComponent,
+    ServerPropertiesUiComponent,
   ],
   imports: [
     BrowserModule,

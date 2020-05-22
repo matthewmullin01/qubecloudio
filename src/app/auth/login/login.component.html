@@ -1,6 +1,6 @@
 <div class="page-wrapper">
   <h1 class="title">Login</h1>
-  <h3 class="subtitle">Hello! Login with your email</h3>
+  <h3 class="subtitle">Welcome to QubeCloud</h3>
 
   <form class="row" (ngSubmit)="onSubmit(form)" #form="ngForm">
     <div class="form-group col-md-4 offset-4 text-left">
@@ -47,23 +47,22 @@
       </button>
     </div>
 
-    <div class="col-md-4 offset-4" style="margin-top: 34px;">
-      <span>or enter with:</span>
+    <div class="col-md-4 offset-4" style="margin-top: 24px;">
+      <table width="100%">
+        <tr>
+          <td><hr /></td>
+          <td style="width: 1px; padding: 0 10px; white-space: nowrap; font-size: 0.8em; font-weight: bold;">OR</td>
+          <td><hr /></td>
+        </tr>
+      </table>
 
-      <div>
+      <div style="margin-top: 14px;">
         <div class="d-flex align-content-center justify-content-center">
-          <a (click)="authWithProvider('google')" class="social-icon">
-            <nb-icon icon="google"></nb-icon>
+          <button outline nbButton fullWidth (click)="authWithProvider('google')">
+            <nb-icon icon="google" style="margin-right: 14px;"></nb-icon>
             <ng-template #title>Google</ng-template>
-          </a>
-          <a class="social-icon">
-            <nb-icon icon="facebook"></nb-icon>
-            <ng-template #title>Facebook</ng-template>
-          </a>
-          <a class="social-icon">
-            <nb-icon icon="twitter"></nb-icon>
-            <ng-template #title>Twitter</ng-template>
-          </a>
+            Sign in with Google
+          </button>
         </div>
       </div>
     </div>

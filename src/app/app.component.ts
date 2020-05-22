@@ -6,7 +6,7 @@ import { User } from 'firebase';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   title = 'QubeCloud';
@@ -16,7 +16,7 @@ export class AppComponent {
       if (user) {
         if (this.router.url.startsWith('/auth')) {
           console.log('Logged In: Routing to Home');
-          this.router.navigate(['/home/convert']);
+          this.router.navigate(['/home/dashboard']);
         }
       } else {
         if (!this.router.url.startsWith('/auth')) {

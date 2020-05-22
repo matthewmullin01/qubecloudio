@@ -1,4 +1,4 @@
-#resources-wrapper {
+#wrapper-resources {
   .toggle-button {
     width: 65px;
   }
@@ -16,7 +16,9 @@
 
 ::ng-deep {
   nb-dialog-container {
-    max-width: 95vw;
-    width: 1000px;
+    #wrapper-resources {
+      max-width: 95vw;
+      width: 1000px;
+    }
   }
 }
