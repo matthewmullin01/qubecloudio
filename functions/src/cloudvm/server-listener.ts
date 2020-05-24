@@ -3,12 +3,14 @@ import * as functions from 'firebase-functions';
 // @ts-ignore
 import Compute = require('@google-cloud/compute');
 import { IServer } from '../../../src/shared/models/server.model';
+import { cancelSubscription } from '../paddle/cancel-subscription';
 
 export const serverListener = functions.firestore.document('/servers/{serverUid}').onUpdate(async (snap, context) => {
   const before: IServer = snap.before.data() as IServer;
   const after: IServer = snap.after.data() as IServer;
 
   if (before.status === 'active' && after.status === 'deleted') {
+    await cancelSubscription(after.paddleSubscriptionId);
     return await deleteServer(after);
   }
 
@@ -23,7 +25,7 @@ const deleteServer = async (server: IServer) => {
       zone: server.vmInfo.zone,
       region: server.vmInfo.region,
       diskName: server.vmInfo.diskName,
-      addressName: server.vmInfo.addressName
+      addressName: server.vmInfo.addressName,
     };
 
     const compute = new Compute();

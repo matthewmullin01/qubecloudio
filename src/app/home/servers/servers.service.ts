@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { DialogComponent } from 'src/shared/ui/dialog/dialog.component';
 import { take, switchMap, map, catchError, tap, retryWhen, delay } from 'rxjs/operators';
 import { ServerPropertiesComponent } from './server/server-properties/server-properties.component';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,8 @@ export class ServersService {
     private ss: SharedService,
     private toastr: NbToastrService,
     private dialogService: NbDialogService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {
     this.onInit();
   }
@@ -77,8 +79,9 @@ export class ServersService {
           title: 'Delete Server',
           body: `Deleting this server will remove it from you list of active servers and access to the server will be terminated. You will not be
           billed for this server from the end of the current billing cycle.
-          <br><br> We will keep a backup of your game world for the next three months
-          in case you change your mind.`,
+          `,
+          // <br><br> We will keep a backup of your game world for the next three months
+          // in case you change your mind.
           cancel: 'Go Back',
           confirm: `Delete Server`,
           confirmClickDelay: 1000,
@@ -91,6 +94,7 @@ export class ServersService {
       try {
         await this.deleteServer(server);
         this.toastr.info(`Server has been closed`, 'Removed');
+        this.router.navigate(['/home/servers']);
       } catch (error) {
         console.error(error);
         alert(error);
@@ -116,6 +120,7 @@ export class ServersService {
       try {
         await this.restartServer(server);
         this.toastr.info(`Server is restarting`, 'Restarted');
+        this.router.navigate(['/home/servers']);
       } catch (error) {
         console.error(error);
         alert(error);

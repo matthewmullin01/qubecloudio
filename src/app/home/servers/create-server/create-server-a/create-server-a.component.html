@@ -1,12 +1,12 @@
-<h4>Choose you Plan</h4>
+<div class="text-center">
+  <h4>Choose a Plan</h4>
 
-<br />
+  <br />
 
-<p>
-  Lorizzle ipsum dolizzle stuff fizzle, consectetuer adipiscing break it down. Nullizzle sapien velizzle, my shizz pimpin', shizzle my
-  nizzle crocodizzle shut the shizzle up, gravida vizzle, dang.
-</p>
-
+  <p>
+    Select one of our preset plans. All our plans have unlimited player limits and run on a dedicated private IP just for you.
+  </p>
+</div>
 <br />
 
 <table class="table table-striped">
@@ -24,7 +24,9 @@
     <tr *ngFor="let plan of plans" style="font-weight: bold;">
       <th scope="row">{{ plan.name }}</th>
       <td>{{ plan.ramSize }} <small> GB </small></td>
-      <td><small>{{ getCpuCountText(plan.cpuCount) }} </small>{{ plan.cpuClock }}<small> Ghz </small></td>
+      <td>
+        <small> <b> {{ getCpuCountText(plan.cpuCount) }}</b></small>
+      </td>
       <td>{{ plan.recommendedPlayers }}</td>
       <td>{{ "$" + plan.price }}</td>
       <td>

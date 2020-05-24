@@ -1,12 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CreateServerService } from '../create-server.service';
-import { IServer } from 'src/shared/models/server.model';
+import { IServer, serverLocations } from 'src/shared/models/server.model';
 import { SharedService } from 'src/shared/services/shared.service';
 import { IUser } from 'src/shared/models/user.model';
 import { IPassthrough } from 'src/shared/models/passthrough.model';
 import { IPlan } from 'src/shared/models/plan.model';
 import { HttpClient } from '@angular/common/http';
 import { firestore } from 'firebase';
+import { NbToastrService } from '@nebular/theme';
+import { Router } from '@angular/router';
 
 declare let Paddle: any;
 
@@ -20,25 +22,38 @@ export class CreateServerPayComponent implements OnInit {
   plan: IPlan;
   user: IUser;
   @ViewChild('paddle', { static: true }) paddleElement: ElementRef;
+  fullLocation: string;
 
-  constructor(private createServerSvc: CreateServerService, private ss: SharedService) {
+  constructor(
+    private toastr: NbToastrService,
+    private createServerSvc: CreateServerService,
+    private ss: SharedService,
+    private router: Router
+  ) {
     console.log('INIT');
   }
 
   async ngOnInit() {
     this.server = this.createServerSvc.server;
     this.plan = this.createServerSvc.plan;
+    this.fullLocation = this.mapGoogleLocationToArea(this.server.location);
     this.user = await this.ss.getUser();
   }
 
-  payClicked() {
-    firestore()
-      .doc(`servers/${this.server.uid}`)
-      .set(this.server)
-      .catch((e) => alert(e))
-      .then((_) => console.log('success'));
+  mapGoogleLocationToArea(location: string) {
+    const flattened = serverLocations.flatMap((a) => a.servers);
 
-    return;
+    return flattened.find((a) => a.id === location).location;
+  }
+
+  payClicked() {
+    // firestore()
+    //   .doc(`servers/${this.server.uid}`)
+    //   .set(this.server)
+    //   .catch((e) => alert(e))
+    //   .then((_) => console.log('success'));
+
+    // return;
 
     const passthrough: IPassthrough = { server: this.server, user: this.user };
 
@@ -60,11 +75,14 @@ export class CreateServerPayComponent implements OnInit {
   }
 
   successfulPayment(data: PaddleData) {
-    // TODO - Listen for server vmInfo to be on firestore
+    this.toastr.info(`Server has been created`, 'Server Starting');
+    this.router.navigate(['/home/servers']);
   }
 
   erroredPayment(error: any) {
     // TODO - add nice error handler
+    console.error(error);
+    this.toastr.warning(`Server creation error`, 'Error');
   }
 }
 

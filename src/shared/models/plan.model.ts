@@ -4,7 +4,6 @@ export interface IPlan {
   paddlePlanId: string;
   ramSize: number;
   cpuCount: number;
-  cpuClock: number;
   recommendedPlayers: string;
   price: number;
 }
@@ -13,51 +12,46 @@ export const plans: IPlan[] = [
   {
     name: 'Starter',
     id: 'starter',
-    paddlePlanId: '591305',
+    paddlePlanId: '594607',
     ramSize: 1.75,
-    cpuCount: 1,
-    cpuClock: 1.2,
+    cpuCount: 0.5,
     recommendedPlayers: '1 - 2',
-    price: 30,
+    price: 29,
   },
   {
     name: 'Regular',
     id: 'regular',
-    paddlePlanId: '591305',
+    paddlePlanId: '594608',
     ramSize: 2,
     cpuCount: 1,
-    cpuClock: 1.2,
-    recommendedPlayers: '2 - 3',
-    price: 40,
+    recommendedPlayers: '2 - 5',
+    price: 34,
   },
   {
     name: 'Pro',
     id: 'pro',
-    paddlePlanId: '591305',
+    paddlePlanId: '594609',
     ramSize: 3,
     cpuCount: 1,
-    cpuClock: 1.2,
     recommendedPlayers: '5 - 10',
-    price: 50,
+    price: 44,
   },
   {
     name: 'Super',
     id: 'super',
-    paddlePlanId: '591305',
+    paddlePlanId: '594610',
     ramSize: 4,
     cpuCount: 2,
-    cpuClock: 2.2,
     recommendedPlayers: '10 - 20',
-    price: 70,
+    price: 59,
   },
   {
     name: 'Ultra',
     id: 'ultra',
-    paddlePlanId: '591305',
+    paddlePlanId: '594611',
     ramSize: 6,
     cpuCount: 4,
-    cpuClock: 4.2,
-    recommendedPlayers: '20 - 30',
-    price: 100,
+    recommendedPlayers: '20 - 50',
+    price: 99,
   },
 ];
