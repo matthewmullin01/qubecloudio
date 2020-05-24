@@ -24,8 +24,10 @@ export class CreateServerAComponent implements OnInit {
 
   getCpuCountText(count: number) {
     switch (count) {
+      case 0.5:
+        return 'SHARED';
       case 1:
-        return '';
+        return 'SINGLE';
       case 2:
         return 'DUAL';
       case 3:

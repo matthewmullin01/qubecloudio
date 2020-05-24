@@ -3,8 +3,8 @@ import * as admin from 'firebase-admin';
 import { IServer } from '../../../src/shared/models/server.model';
 import Compute = require('@google-cloud/compute');
 
-// export const auditCron = functions.pubsub.schedule('0 0/6 * * *').onRun(async (context) => {
-export const auditCron = functions.https.onRequest(async (req, res) => {
+export const auditCron = functions.pubsub.schedule('0 0/6 * * *').onRun(async (context) => {
+  // export const auditCron = functions.https.onRequest(async (req, res) => {
   const compute = new Compute() as any;
 
   const servers = (await admin.firestore().collection(`/servers`).get()).docs.map((a) => a.data()) as IServer[];
@@ -37,8 +37,8 @@ export const auditCron = functions.https.onRequest(async (req, res) => {
 
   // TODO add check for External IPs and Disks matching each VM (so we don't have any hanging IPs/Disks)
 
-  return res.status(200).send();
-  //   return 'Done';
+  // return res.status(200).send();
+  return 'Done';
 });
 
 interface IVMMetadata {

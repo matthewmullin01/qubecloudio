@@ -8,6 +8,6 @@ import { handlePaddleWebook as _handlePaddleWebook } from './paddle/handle-paddl
 admin.initializeApp();
 
 export const createServer = _createServer;
-export const auditCron2 = _auditCron;
+export const auditCron = _auditCron;
 export const serverListener = _serverListener;
 export const handlePaddleWebook = _handlePaddleWebook;
