@@ -29,9 +29,7 @@ export class CreateServerPayComponent implements OnInit {
     private createServerSvc: CreateServerService,
     private ss: SharedService,
     private router: Router
-  ) {
-    console.log('INIT');
-  }
+  ) {}
 
   async ngOnInit() {
     this.server = this.createServerSvc.server;
@@ -57,13 +55,10 @@ export class CreateServerPayComponent implements OnInit {
 
     const passthrough: IPassthrough = { server: this.server, user: this.user };
 
-    console.log(JSON.stringify(passthrough));
-
     Paddle.Checkout.open({
       product: this.server.paddlePlanId,
       email: this.user.email,
       passthrough,
-      // closeCallback: 'checkoutClosed',
       successCallback: (data: PaddleData, error) => {
         if (error) {
           this.erroredPayment(error);

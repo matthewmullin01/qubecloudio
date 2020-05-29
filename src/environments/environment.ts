@@ -8,6 +8,6 @@ export const environment = {
     storageBucket: 'minecraft-63461.appspot.com',
     messagingSenderId: '962302234098',
     appId: '1:962302234098:web:a395503c11a2213ce3ef6b',
-    measurementId: 'G-P0CFHWM402'
-  }
+    measurementId: 'G-P0CFHWM402',
+  },
 };

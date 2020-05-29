@@ -78,8 +78,6 @@ export class CreateServerBComponent implements OnInit {
       vmInfo: null, // This is set via createSever webhook
     };
 
-    console.log(this.createServerSvc.server);
-
     this.createServerSvc.stepper.next();
   }
 }
