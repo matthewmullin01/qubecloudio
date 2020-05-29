@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "firebase use default && ng build && firebase deploy --only hosting:minecraft"
+    "deploy": "firebase use default && ng build --configuration=production && firebase deploy --only hosting:minecraft"
   },
   "private": true,
   "dependencies": {
