@@ -55,6 +55,10 @@
   }
 }
 
+.disabled {
+  pointer-events: none;
+}
+
 // .ip-address-wrapper {
 //   .ip-address {
 //     padding: 0.8em;

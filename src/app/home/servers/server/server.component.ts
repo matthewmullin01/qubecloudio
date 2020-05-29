@@ -25,6 +25,7 @@ export class ServerComponent implements OnInit, OnDestroy {
   fullLocation: string;
   extraOptions: { title: ExtraOptionsMenuEnum }[] = [{ title: 'Settings' }, { title: 'Restart' }, { title: 'Delete' }];
 
+  status: ServerStatusEnum;
   status$: Observable<ServerStatusEnum>;
   statusBadgeUI$: Observable<{ status: string; text: string }>;
 
@@ -50,6 +51,7 @@ export class ServerComponent implements OnInit, OnDestroy {
   private getStatusBadgeUI$() {
     return this.status$.pipe(
       map((status) => {
+        this.status = status;
         switch (status) {
           case 'offline':
             return { status: 'warning', text: 'Offline' };
