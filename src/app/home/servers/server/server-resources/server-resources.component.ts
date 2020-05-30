@@ -6,6 +6,7 @@ import { ChartDataSets, ChartOptions } from 'chart.js';
 import { interval, of, Observable, timer, Subscription } from 'rxjs';
 import { switchMap, map, take, tap } from 'rxjs/operators';
 import * as moment from 'moment';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-server-resources',
@@ -72,7 +73,9 @@ export class ServerResourcesComponent implements OnInit, OnDestroy {
     return of('').pipe(
       switchMap(() =>
         this.server.vmInfo?.publicIP
-          ? (this.http.get(`http://${this.server.vmInfo.publicIP}:4000/resources`) as Observable<IResourceUsage[]>)
+          ? (this.http.get(`${environment.functions.getResourcesProxy}?publicIP=${this.server.vmInfo.publicIP}`) as Observable<
+              IResourceUsage[]
+            >)
           : (of(null) as null)
       ),
       map((data) => data && this.getInitialChartData(data)),
@@ -87,7 +90,9 @@ export class ServerResourcesComponent implements OnInit, OnDestroy {
       tap((_) => console.log('Polling Graph Data')),
       switchMap(() =>
         this.server.vmInfo?.publicIP
-          ? (this.http.get(`http://${this.server.vmInfo.publicIP}:4000/resources/newest`) as Observable<IResourceUsage>)
+          ? (this.http.get(`${environment.functions.getResourcesNewestProxy}?publicIP=${this.server.vmInfo.publicIP}`) as Observable<
+              IResourceUsage
+            >)
           : (of(null) as null)
       ),
       map((data) => data && this.updateChartData(data))

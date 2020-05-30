@@ -7,6 +7,7 @@ import { DialogComponent } from 'src/shared/ui/dialog/dialog.component';
 import { take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { IMinecraftServerProps, IEditableMinecraftServerProps } from 'src/shared/models/minecraft-server-properties.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-server-properties',
@@ -145,20 +146,26 @@ export class ServerPropertiesComponent implements OnInit {
     if (!this.server.vmInfo?.publicIP) {
       return {};
     }
-    return (await this.http.get(`http://${this.server.vmInfo.publicIP}:4000/props`).toPromise()) as IMinecraftServerProps;
+    return (await this.http
+      .get(`${environment.functions.getPropsProxy}?publicIP=${this.server.vmInfo.publicIP}`)
+      .toPromise()) as IMinecraftServerProps;
   }
 
   async updateServerProps(props: {}) {
     console.log(JSON.stringify(props));
 
     const res = await this.http
-      .post(`http://${this.server.vmInfo.publicIP}:4000/props`, { data: props }, { responseType: 'text' })
+      .post(`${environment.functions.setPropsProxy}?publicIP=${this.server.vmInfo.publicIP}`, JSON.stringify({ props }), {
+        responseType: 'text',
+      })
       .toPromise();
     console.log('updateServerProps: ', res);
   }
 
   async restartServer() {
-    const res = await this.http.get(`http://${this.server.vmInfo.publicIP}:4000/restart`, { responseType: 'text' }).toPromise();
+    const res = await this.http
+      .get(`${environment.functions.restartProxy}?publicIP=${this.server.vmInfo.publicIP}`, { responseType: 'text' })
+      .toPromise();
     console.log(res);
   }
 }

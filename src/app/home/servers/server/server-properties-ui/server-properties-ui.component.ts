@@ -7,6 +7,7 @@ import { DialogComponent } from 'src/shared/ui/dialog/dialog.component';
 import { take } from 'rxjs/operators';
 import { ServerPropertiesComponent } from '../server-properties/server-properties.component';
 import { IMinecraftServerProps } from 'src/shared/models/minecraft-server-properties.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-server-properties-ui',
@@ -46,6 +47,8 @@ export class ServerPropertiesUiComponent implements OnInit {
     if (!this.server.vmInfo?.publicIP) {
       return {};
     }
-    return (await this.http.get(`http://${this.server.vmInfo.publicIP}:4000/props`).toPromise()) as IMinecraftServerProps;
+    return (await this.http
+      .get(`${environment.functions.getPropsProxy}?publicIP=${this.server.vmInfo.publicIP}`)
+      .toPromise()) as IMinecraftServerProps;
   }
 }

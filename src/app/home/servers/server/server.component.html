@@ -63,12 +63,7 @@
           icon="pie-chart-outline"
           (click)="openResourcesDialog()"
         ></nb-action>
-        <nb-action
-          [class.disabled]="!status || status === 'offline'"
-          icon="more-horizontal"
-          [nbContextMenu]="extraOptions"
-          [nbContextMenuTag]="'server-menu-' + server.uid"
-        ></nb-action>
+        <nb-action icon="more-horizontal" [nbContextMenu]="extraOptions" [nbContextMenuTag]="'server-menu-' + server.uid"></nb-action>
       </nb-actions>
     </div>
   </nb-card-body>

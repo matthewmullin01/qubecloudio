@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { IServer } from 'src/shared/models/server.model';
 import { NbDialogRef } from '@nebular/theme';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-server-logs',
@@ -40,6 +41,8 @@ export class ServerLogsComponent implements OnInit {
     if (!this.server.vmInfo?.publicIP) {
       return 'Initializing ...';
     }
-    return ((await this.http.get(`http://${this.server.vmInfo.publicIP}:4000/logs`).toPromise()) as { logs: string }).logs;
+    return ((await this.http.get(`${environment.functions.getLogsProxy}?publicIP=${this.server.vmInfo.publicIP}`).toPromise()) as {
+      logs: string;
+    }).logs;
   }
 }

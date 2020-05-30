@@ -10,6 +10,7 @@ import { DialogComponent } from 'src/shared/ui/dialog/dialog.component';
 import { take, switchMap, map, catchError, tap, retryWhen, delay } from 'rxjs/operators';
 import { ServerPropertiesComponent } from './server/server-properties/server-properties.component';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -50,10 +51,12 @@ export class ServersService {
 
         return (
           this.http
-            .get(`http://${server.vmInfo.publicIP}:4000/status`)
+            .get(`${environment.functions.getStatusProxy}?publicIP=${server.vmInfo.publicIP}`)
             // Success Handler
             .pipe<ServerStatusEnum>(
               map((data: IStatusResult) => {
+                console.log({ data });
+
                 return data.version ? 'online' : 'starting';
               })
             )
@@ -119,7 +122,7 @@ export class ServersService {
     if (result === 'confirm') {
       try {
         await this.restartServer(server);
-        this.toastr.info(`Server is restarting`, 'Restarted');
+        this.toastr.info(`Server is restarting`, 'Restarting');
         this.router.navigate(['/home/servers']);
       } catch (error) {
         console.error(error);
@@ -137,7 +140,9 @@ export class ServersService {
   }
 
   private async restartServer(server: IServer) {
-    const res = await this.http.get(`http://${server.vmInfo.publicIP}:4000/restart`, { responseType: 'text' }).toPromise();
+    const res = await this.http
+      .get(`${environment.functions.restartProxy}?publicIP=${server.vmInfo.publicIP}`, { responseType: 'text' })
+      .toPromise();
     console.log(res);
   }
 
