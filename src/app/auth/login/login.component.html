@@ -1,0 +1,72 @@
+<div class="page-wrapper">
+  <h1 class="title">Login</h1>
+  <h3 class="subtitle">Welcome to QubeCloud</h3>
+
+  <form class="row" (ngSubmit)="onSubmit(form)" #form="ngForm">
+    <div class="form-group col-md-4 offset-4 text-left">
+      <label>Email address:</label>
+      <input
+        nbInput
+        fullWidth
+        type="text"
+        placeholder="Email address"
+        class="form-control"
+        [(ngModel)]="formData.email"
+        name="email"
+        required
+      />
+    </div>
+
+    <div class="form-group col-md-4 offset-4 text-left">
+      <label>Password:</label>
+      <input
+        nbInput
+        fullWidth
+        type="password"
+        placeholder="Password"
+        class="form-control"
+        [(ngModel)]="formData.password"
+        name="password"
+        required
+      />
+    </div>
+
+    <div class="col-md-4 offset-4">
+      <br />
+      <button
+        type="submit"
+        nbButton
+        fullWidth
+        class="float-right"
+        [disabled]="!form.valid"
+        [nbSpinner]="loading"
+        nbSpinnerMessage=""
+        nbSpinnerStatus="primary"
+      >
+        Log In
+      </button>
+    </div>
+
+    <div class="col-md-4 offset-4" style="margin-top: 24px;">
+      <table width="100%">
+        <tr>
+          <td><hr /></td>
+          <td style="width: 1px; padding: 0 10px; white-space: nowrap; font-size: 0.8em; font-weight: bold;">OR</td>
+          <td><hr /></td>
+        </tr>
+      </table>
+
+      <div style="margin-top: 14px;">
+        <div class="d-flex align-content-center justify-content-center">
+          <button outline nbButton fullWidth (click)="authWithProvider('google')">
+            <nb-icon icon="google" style="margin-right: 14px;"></nb-icon>
+            <ng-template #title>Google</ng-template>
+            Sign in with Google
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 offset-4" style="margin-top: 34px;">Don't have an account? <a routerLink="/auth/register">Register</a></div>
+  </form>
+</div>

@@ -1,0 +1,15 @@
+<nb-card>
+  <nb-card-body>
+    <nb-stepper disableStepNavigation="true" orientation="horizontal" #stepper>
+      <nb-step label="Plan">
+        <app-create-server-a *ngIf="stepper.selectedIndex === 0"></app-create-server-a>
+      </nb-step>
+      <nb-step label="Server details">
+        <app-create-server-b *ngIf="stepper.selectedIndex === 1"></app-create-server-b>
+      </nb-step>
+      <nb-step label="Finalize">
+        <app-create-server-pay *ngIf="stepper.selectedIndex === 2"></app-create-server-pay>
+      </nb-step>
+    </nb-stepper>
+  </nb-card-body>
+</nb-card>
