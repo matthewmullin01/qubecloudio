@@ -1,0 +1,29 @@
+<nb-card id="wrapper-props">
+  <nb-card-header>Server Properties</nb-card-header>
+  <nb-card-body>
+    <form #form="ngForm">
+      <div *ngFor="let item of formData | keyvalue" class="form-group text-left">
+        <label>{{ item.key }}:</label>
+        <input nbInput fullWidth type="text" [placeholder]="item.key" class="form-control" [(ngModel)]="item.value" [name]="item.key" />
+      </div>
+    </form>
+  </nb-card-body>
+  <nb-card-footer>
+    <!-- <button class="float-left" nbButton>
+      Cancel
+    </button> -->
+
+    <button
+      type="submit"
+      nbButton
+      class="float-right"
+      [disabled]="!form.valid"
+      [nbSpinner]="loading"
+      nbSpinnerMessage=""
+      (click)="onSubmit(form)"
+      nbSpinnerStatus="primary"
+    >
+      Save
+    </button>
+  </nb-card-footer>
+</nb-card>

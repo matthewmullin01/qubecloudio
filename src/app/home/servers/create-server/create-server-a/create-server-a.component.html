@@ -1,0 +1,42 @@
+<div class="text-center">
+  <h4>Choose a Plan</h4>
+
+  <br />
+
+  <p>
+    Select one of our preset plans. All our plans have unlimited player limits and run on a dedicated private IP just for you.
+  </p>
+</div>
+<br />
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Plan</th>
+      <th scope="col">Ram</th>
+      <th scope="col">CPU</th>
+      <th scope="col">Recommended Players</th>
+      <th scope="col">Price</th>
+      <th scope="col">Order</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let plan of plans" style="font-weight: bold;">
+      <th scope="row">{{ plan.name }}</th>
+      <td>{{ plan.ramSize }} <small> GB </small></td>
+      <td>
+        <small> <b> {{ getCpuCountText(plan.cpuCount) }}</b></small>
+      </td>
+      <td>{{ plan.recommendedPlayers }}</td>
+      <td>{{ "$" + plan.price }}</td>
+      <td>
+        <button shape="round" size="small" nbButton hero status="primary" (click)="selectClicked(plan)">
+          Select
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- <button nbButton disabled nbStepperNext>prev</button>
+<button nbButton nbStepperNext>next</button> -->

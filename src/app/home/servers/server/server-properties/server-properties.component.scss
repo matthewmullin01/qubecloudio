@@ -1,0 +1,13 @@
+#wrapper-props {
+  height: 90vh;
+}
+
+::ng-deep {
+  nb-dialog-container {
+    #wrapper-props {
+      max-width: 95vw;
+      max-height: 50vh;
+      width: 600px;
+    }
+  }
+}

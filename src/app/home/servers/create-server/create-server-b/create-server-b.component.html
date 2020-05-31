@@ -1,0 +1,69 @@
+<div class="text-center">
+  <h4>Customize Your Server</h4>
+
+  <br />
+
+  <p>
+    Set your server name and description to find it easily from the dashboard. Selecting a location closest to you will result in the lowest
+    latency.
+  </p>
+</div>
+<br />
+
+<form (ngSubmit)="onSubmit(form)" #form="ngForm">
+  <div class="form-group col-md-6 offset-3 text-left">
+    <label>Server name:</label>
+    <input nbInput fullWidth type="text" placeholder="Server name" class="form-control" [(ngModel)]="formData.name" name="name" required />
+  </div>
+
+  <div class="form-group col-md-6 offset-3 text-left">
+    <label>Server description:</label>
+    <textarea
+      nbInput
+      fullWidth
+      type="text"
+      placeholder="A snazzy description of your server"
+      class="form-control"
+      [(ngModel)]="formData.description"
+      name="description"
+    ></textarea>
+  </div>
+
+  <div class="form-group col-md-6 offset-3 text-left">
+    <label>Server location (choose your nearest location to get the best performance):</label>
+
+    <nb-select required fullWidth [(ngModel)]="formData.location" name="location" placeholder="Select location">
+      <nb-option-group *ngFor="let serverLocation of serverLocations" [title]="serverLocation.continent">
+        <nb-option *ngFor="let servers of serverLocation.servers" value="{{ servers.id }}"> {{ servers.location }} </nb-option>
+      </nb-option-group>
+    </nb-select>
+  </div>
+
+  <div class="col-md-6 offset-3">
+    <div class="row">
+      <div class="form-group col-md-6 text-left">
+        <label>Type:</label>
+        <nb-select required fullWidth placeholder="Select Server Type" selected="java">
+          <nb-option value="java"> Java </nb-option>
+          <nb-option disabled value="bedrock"> Bedrock &nbsp; <small style="color: darkgray;"> (coming soon) </small> </nb-option>
+          <nb-option disabled value="ftb"> Feed the Beast &nbsp; <small style="color: darkgray;"> (coming soon) </small> </nb-option>
+          <nb-option disabled value="curseforge"> CurseForge &nbsp; <small style="color: darkgray;"> (coming soon) </small> </nb-option>
+        </nb-select>
+      </div>
+
+      <div class="form-group col-md-6 text-left">
+        <label>Version:</label>
+        <nb-select required fullWidth [(ngModel)]="formData.jarUid" name="jarUid" placeholder="Select version">
+          <nb-option *ngFor="let jar of jars$ | async;  let i = index" value="{{ jar.uid }}"
+            >v{{ jar.version }} &nbsp;<small *ngIf="i === 0" style="color: darkgray;">(newest)</small>
+          </nb-option>
+        </nb-select>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="form-group col-md-6 offset-3 text-left" style="margin-top: 45px;">
+  <button nbButton ghost nbStepperPrevious>Back</button>
+  <button nbButton status="primary" class="float-right" (click)="onSubmit(form)" [disabled]="!form.valid">Continue</button>
+</div>
