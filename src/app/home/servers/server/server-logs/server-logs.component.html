@@ -1,7 +1,0 @@
-<nb-card id="wrapper-logs" class="dark-code" style="height: 50vh; position: relative;">
-  <div style="position: absolute; top: 10px; right: 10px;">
-    <button (click)="updateLogs()" nbButton appearance="outline" status="primary"><nb-icon icon="refresh"></nb-icon></button>
-  </div>
-
-  <pre *ngIf="logs" [innerHtml]="logs | safe"></pre>
-</nb-card>
