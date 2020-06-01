@@ -74,7 +74,7 @@ export class CreateServerPayComponent implements OnInit {
   }
 
   successfulPayment(data: PaddleData) {
-    this.analytics.logEvent('server_created', { serverUid: this.server.uid, plan: this.server.planId });
+    this.analytics.logEvent(`server_created_${this.server.planId}`, { serverUid: this.server.uid, plan: this.server.planId });
     this.toastr.info(`Server has been created`, 'Server Starting');
     this.router.navigate(['/home/servers']);
   }
