@@ -55,7 +55,7 @@ export class CreateServerPayComponent implements OnInit {
 
     // return;
 
-    this.analytics.logEvent('server_pay_clicked', { serverUid: this.server.uid, plan: this.server.planId });
+    this.analytics.logEvent('server_pay_clicked');
 
     const passthrough: IPassthrough = { server: this.server, user: this.user };
 
@@ -74,7 +74,7 @@ export class CreateServerPayComponent implements OnInit {
   }
 
   successfulPayment(data: PaddleData) {
-    this.analytics.logEvent(`server_created_${this.server.planId}`, { serverUid: this.server.uid, plan: this.server.planId });
+    this.analytics.logEvent(`server_created_${this.server.planId}`, { currency: 'USD', value: this.plan.price });
     this.toastr.info(`Server has been created`, 'Server Starting');
     this.router.navigate(['/home/servers']);
   }

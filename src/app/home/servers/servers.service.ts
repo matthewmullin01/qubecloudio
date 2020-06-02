@@ -142,7 +142,7 @@ export class ServersService {
   }
 
   private async restartServer(server: IServer) {
-    this.analytics.logEvent('server_restart', { serverUid: server.uid, plan: server.planId });
+    this.analytics.logEvent('server_restart');
     const res = await this.http
       .get(`${environment.functions.restartProxy}?publicIP=${server.vmInfo.publicIP}`, { responseType: 'text' })
       .toPromise();
@@ -150,7 +150,7 @@ export class ServersService {
   }
 
   private async deleteServer(server: IServer) {
-    this.analytics.logEvent('server_delete', { serverUid: server.uid, plan: server.planId });
+    this.analytics.logEvent('server_delete');
     const partialUpdate: Partial<IServer> = { status: 'deleted' };
     return await this.afs.doc(`/servers/${server.uid}`).update(partialUpdate);
   }
