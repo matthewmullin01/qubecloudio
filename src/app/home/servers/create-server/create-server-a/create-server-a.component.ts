@@ -16,7 +16,7 @@ export class CreateServerAComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  selectClicked(plan: IPlan) {
+  async selectClicked(plan: IPlan) {
     this.analytics.logEvent('server_plan_selected');
     this.createServerSvc.plan = plan;
     this.createServerSvc.stepper.next();

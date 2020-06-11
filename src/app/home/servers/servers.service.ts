@@ -57,9 +57,7 @@ export class ServersService {
             // Success Handler
             .pipe<ServerStatusEnum>(
               map((data: IStatusResult) => {
-                console.log({ data });
-
-                return data.version ? 'online' : 'starting';
+                return data.Status === 'healthy' ? 'online' : 'starting';
               })
             )
             // Error Handler
@@ -159,14 +157,7 @@ export class ServersService {
 export type ServerStatusEnum = 'starting' | 'offline' | 'online' | null;
 
 interface IStatusResult {
-  host: string;
-  port: number;
-  version: string;
-  protocolVersion: number;
-  onlinePlayers: number;
-  maxPlayers: number;
-  samplePlayers: { id: string; name: string }[];
-  descriptionText: string;
-  favicon?: any;
-  modList?: any;
+  Status: 'healthy' | 'starting' | 'unhealthy';
+  FailingStreak: number;
+  Log: { Start: Date; End: Date; ExitCode: number; Output: string }[];
 }

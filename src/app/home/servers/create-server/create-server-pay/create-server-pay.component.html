@@ -28,9 +28,14 @@
         <p class="val">{{ server.planId }}</p>
       </div>
 
-      <div class="key-val">
+      <div class="key-val" *ngIf="server.serverType === 'VANILLA'">
         <p class="key">Version</p>
-        <p class="val">{{ server.jarVersion }}</p>
+        <p class="val">{{ server.vanilla.jarVersion }}</p>
+      </div>
+
+      <div class="key-val" *ngIf="server.serverType === 'CURSEFORGE'">
+        <p class="key">Version</p>
+        <p class="val">{{ server.curseforge.name }}</p>
       </div>
     </div>
   </div>
