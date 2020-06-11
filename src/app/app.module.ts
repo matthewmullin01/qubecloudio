@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AngularFireModule } from '@angular/fire';
 
-import { AngularFireAnalyticsModule, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
+import { AngularFireAnalyticsModule, ScreenTrackingService, UserTrackingService, CONFIG } from '@angular/fire/analytics';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -95,7 +95,7 @@ import { ServerPropertiesUiComponent } from './home/servers/server/server-proper
     BrowserAnimationsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAnalyticsModule,
+    // AngularFireAnalyticsModule,
     AngularFirestoreModule,
     ChartsModule,
     NbThemeModule.forRoot(),
@@ -127,8 +127,14 @@ import { ServerPropertiesUiComponent } from './home/servers/server/server-proper
       provide: RouteReuseStrategy,
       useClass: CustomRouteReuseStrategy,
     },
-    ScreenTrackingService,
-    UserTrackingService,
+    // {
+    //   provide: CONFIG,
+    //   useValue: {
+    //     DEBUG_MODE: true,
+    //   },
+    // },
+    // ScreenTrackingService,
+    // UserTrackingService,
   ],
   bootstrap: [AppComponent],
 })

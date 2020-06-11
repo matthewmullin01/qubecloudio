@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { CreateServerService } from '../create-server.service';
 import { IServer, serverLocations } from 'src/shared/models/server.model';
 import { SharedService } from 'src/shared/services/shared.service';
@@ -30,7 +30,8 @@ export class CreateServerPayComponent implements OnInit {
     private createServerSvc: CreateServerService,
     private ss: SharedService,
     private router: Router,
-    private analytics: AngularFireAnalytics
+    private analytics: AngularFireAnalytics,
+    private ngZone: NgZone
   ) {}
 
   async ngOnInit() {
@@ -42,7 +43,6 @@ export class CreateServerPayComponent implements OnInit {
 
   mapGoogleLocationToArea(location: string) {
     const flattened = serverLocations.flatMap((a) => a.servers);
-
     return flattened.find((a) => a.id === location).location;
   }
 
@@ -74,9 +74,11 @@ export class CreateServerPayComponent implements OnInit {
   }
 
   successfulPayment(data: PaddleData) {
-    this.analytics.logEvent(`server_created_${this.server.planId}`, { currency: 'USD', value: this.plan.price });
-    this.toastr.info(`Server has been created`, 'Server Starting');
-    this.router.navigate(['/home/servers']);
+    this.ngZone.run(() => {
+      this.analytics.logEvent(`server_created_${this.server.planId}`, { currency: 'USD', value: this.plan.price });
+      this.toastr.info(`Server has been created`, 'Server Starting');
+      this.router.navigate(['/home/servers']);
+    });
   }
 
   erroredPayment(error: any) {

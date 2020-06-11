@@ -11,11 +11,20 @@ export interface IServer {
   description: string;
   location: string;
   createdTime: firestore.Timestamp;
+  serverType: 'VANILLA' | 'CURSEFORGE';
 
-  jarVersion: string;
-  jarType: string;
-  jarUrl: string;
-  jarUid: string;
+  vanilla?: {
+    jarVersion: string;
+    jarType: string;
+    jarUrl: string;
+    jarUid: string;
+  };
+
+  curseforge?: {
+    name: string;
+    modPackUrl: string;
+    modPackVersion: string;
+  };
 
   planId: IPlan['id'];
   paddleSubscriptionId: string;
@@ -33,7 +42,6 @@ export interface IVMConfig {
   publicIP: string;
   diskName: string;
   addressName: string;
-  minecraftServerJarURL: string;
 }
 
 export const serverLocations = [

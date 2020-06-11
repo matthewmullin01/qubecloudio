@@ -11,7 +11,7 @@ export const handlePaddleWebook = functions.https.onRequest(async (req, res) => 
 
     return await createServer(req, body, res);
   } else {
-    res.send('Webhook not handled');
+    return res.send('Webhook not handled');
   }
 });
 
@@ -24,12 +24,12 @@ async function createServer(req: functions.https.Request, body: ISubscriptionCre
 
   await admin
     .firestore()
-    .doc(`/servers/${passthrough.server.uid}`)
+    .doc(`servers/${passthrough.server.uid}`)
     .create({ ...passthrough.server, ...{ paddleSubscriptionId: body.subscription_id } });
 
   console.log('Starting 3');
 
-  res.status(201).send('Created');
+  return res.status(200).send('Created');
 }
 
 interface ISubscriptionCreatedBody {

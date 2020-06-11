@@ -59,7 +59,7 @@
     </div>
 
     <div class="form-group col-md-4 offset-4 text-left" style="margin-top: 20px;">
-      <nb-checkbox
+      <nb-checkbox [(value)]="termsCheckbox"
         >I agree to the <a href="https://qubecloud.io/terms">Terms and Conditions</a> and
         <a href="https://qubecloud.io/privacy">Privacy Policy</a></nb-checkbox
       >
@@ -72,7 +72,7 @@
         nbButton
         fullWidth
         class="float-right"
-        [disabled]="!form.valid"
+        [disabled]="!form.valid || !termsCheckbox"
         [nbSpinner]="loading"
         nbSpinnerMessage=""
         nbSpinnerStatus="primary"

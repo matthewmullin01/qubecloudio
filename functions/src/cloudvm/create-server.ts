@@ -24,7 +24,6 @@ export const createServer = functions.firestore.document('/servers/{serverUid}')
       publicIP: '',
       diskName: `${vmName}-disk`,
       addressName: `${vmName}-ip`,
-      minecraftServerJarURL: server.jarUrl,
     };
 
     // sudo mount /dev/disk/by-id/google-mc-server-dfg1237ys-disk /home/minecraft
@@ -37,7 +36,7 @@ export const createServer = functions.firestore.document('/servers/{serverUid}')
     vmConfig.publicIP = publicIP;
     const computeZone = compute.zone(vmConfig.zone);
     const vm = computeZone.vm(vmName);
-    const [, operation] = await vm.create(createVmConfig(vmConfig));
+    const [, operation] = await vm.create(createVmConfig(server, vmConfig));
     await operation.promise();
 
     const updatedServerDetails: IServer = { ...server, ...{ vmInfo: vmConfig } };
@@ -49,7 +48,7 @@ export const createServer = functions.firestore.document('/servers/{serverUid}')
   }
 });
 
-const createVmConfig = (vmConfig: IVMConfig): any => {
+const createVmConfig = (server: IServer, vmConfig: IVMConfig): any => {
   return {
     kind: 'compute#instance',
     name: vmConfig.vmName,
@@ -91,6 +90,7 @@ const createVmConfig = (vmConfig: IVMConfig): any => {
 
                 volumes:
                   - "mc:/data"
+                  - /var/run/docker.sock:/var/run/docker.sock
 
                 environment:
                   - PORT=4000
@@ -111,6 +111,8 @@ const createVmConfig = (vmConfig: IVMConfig): any => {
                   EULA: "TRUE"
                   MEMORY: "${vmConfig.allocatedJVMMemory}"
                   ENABLE_QUERY: "TRUE"
+                  ${server.serverType === 'CURSEFORGE' ? 'TYPE: "CURSEFORGE"' : ''}
+                  ${server.serverType === 'CURSEFORGE' ? `CF_SERVER_MOD: "${server.curseforge.modPackUrl}"` : ''}
 
                 restart: always
 
