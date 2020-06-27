@@ -99,6 +99,8 @@ const createVmConfig = (server: IServer, vmConfig: IVMConfig): any => {
                   - "4000:4000"
 
               minecraft:
+                container_name: minecraft_minecraft_1
+
                 # build:
                 #  context: ./minecraft
                 #  dockerfile: ./Dockerfile
@@ -114,6 +116,12 @@ const createVmConfig = (server: IServer, vmConfig: IVMConfig): any => {
                   ${server.serverType === 'CURSEFORGE' ? 'TYPE: "CURSEFORGE"' : ''}
                   ${server.serverType === 'CURSEFORGE' ? `CF_SERVER_MOD: "${server.curseforge.modPackUrl}"` : ''}
 
+                deploy:
+                  resources:
+                    limits:
+                      cpus: "${getDetailsFromPlan(server.planId).minecraftCpuLimit}"
+                      memory: "${getDetailsFromPlan(server.planId).allocMem}"
+
                 restart: always
 
                 healthcheck:
@@ -122,13 +130,13 @@ const createVmConfig = (server: IServer, vmConfig: IVMConfig): any => {
                   timeout: 10s
                   retries: 1
 
-              autoheal:
-                restart: always
-                image: willfarrell/autoheal
-                environment:
-                  - AUTOHEAL_CONTAINER_LABEL=all
-                volumes:
-                  - /var/run/docker.sock:/var/run/docker.sock
+          #    autoheal:
+          #      restart: always
+          #      image: willfarrell/autoheal
+          #      environment:
+          #        - AUTOHEAL_CONTAINER_LABEL=all
+          #      volumes:
+          #        - /var/run/docker.sock:/var/run/docker.sock
 
             volumes:
               mc:
@@ -239,18 +247,20 @@ const createPublicIP = async (vmConfig: IVMConfig, computeRegion: any): Promise<
   return externalIP;
 };
 
-const getDetailsFromPlan = (planId: IPlan['id']): { type: string; allocMem: string } => {
+const getDetailsFromPlan = (planId: IPlan['id']): { type: string; allocMem: string; minecraftCpuLimit: string } => {
   switch (planId) {
     case 'starter':
-      return { type: 'g1-small', allocMem: '1000M' }; // 1 shared CPU, 1792 mb
+      return { type: 'g1-small', allocMem: '1000M', minecraftCpuLimit: '2' }; // 1 shared CPU, 1792 mb
     case 'regular':
-      return { type: 'custom-1-2048', allocMem: '1400M' };
+      return { type: 'custom-1-2048', allocMem: '1400M', minecraftCpuLimit: '0.9' };
     case 'pro':
-      return { type: 'custom-1-3072', allocMem: '2200M' };
+      return { type: 'custom-1-3072', allocMem: '2200M', minecraftCpuLimit: '0.8' };
     case 'super':
-      return { type: 'custom-2-4096', allocMem: '3200M' };
+      return { type: 'custom-2-4096', allocMem: '3200M', minecraftCpuLimit: '1.8' };
     case 'ultra':
-      return { type: 'custom-4-6144', allocMem: '5200M' };
+      return { type: 'custom-4-6144', allocMem: '5200M', minecraftCpuLimit: '3.8' };
+    case 'diamond':
+      return { type: 'custom-4-10240', allocMem: '95000M', minecraftCpuLimit: '3.8' };
   }
 };
 

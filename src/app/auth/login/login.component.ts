@@ -5,6 +5,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { NbToastrService } from '@nebular/theme';
 import { AuthService } from 'src/shared/services/auth.service';
 import { AngularFireAnalytics } from '@angular/fire/analytics';
+import { analytics as an } from 'firebase';
 
 @Component({
   selector: 'app-login',
@@ -58,5 +59,10 @@ export class LoginComponent implements OnInit {
       console.error(error);
     }
     this.loading = false;
+  }
+
+  async testEvent() {
+    an().logEvent('test_event');
+    console.log('Successfully logged event: test_event');
   }
 }

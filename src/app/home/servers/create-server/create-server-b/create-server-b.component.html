@@ -51,7 +51,7 @@
           placeholder="Select Server Type"
         >
           <nb-option value="java"> Java </nb-option>
-          <nb-option disabled value="curseforge"> Mod Packs &nbsp; <small style="color: darkgray;"> (coming soon) </small></nb-option>
+          <nb-option value="curseforge"> Mod Packs </nb-option>
           <nb-option disabled value="bedrock"> Bedrock &nbsp; <small style="color: darkgray;"> (coming soon) </small> </nb-option>
         </nb-select>
       </div>
@@ -59,8 +59,9 @@
       <div class="form-group col-md-6 text-left" *ngIf="formData.serverTypeSelection === 'java'">
         <label>Version:</label>
         <nb-select required fullWidth [(ngModel)]="formData.jarUid" name="jarUid" placeholder="Select version">
-          <nb-option *ngFor="let jar of jars$ | async;  let i = index" value="{{ jar.uid }}"
-            >v{{ jar.version }} &nbsp;<small *ngIf="i === 0" style="color: darkgray;">(newest)</small>
+          <nb-option class="d-flex justify-content-between" *ngFor="let jar of jars$ | async;  let i = index" value="{{ jar.uid }}"
+            >v{{ jar.version }} &nbsp;
+            <small *ngIf="i === 0" style="color: darkgray;">(newest)</small>
           </nb-option>
         </nb-select>
       </div>
@@ -68,8 +69,15 @@
       <div class="form-group col-md-6 text-left" *ngIf="formData.serverTypeSelection === 'curseforge'">
         <label>Pack:</label>
         <nb-select required fullWidth [(ngModel)]="formData.curseforgeUid" name="curseforgeUid" placeholder="Select modpack">
-          <nb-option *ngFor="let curseforgeData of curseforgeData$ | async;  let i = index" value="{{ curseforgeData.uid }}"
+          <nb-option
+            class="d-flex justify-content-between"
+            *ngFor="let curseforgeData of curseforgeData$ | async;  let i = index"
+            [disabled]="getCurseforgeOptionDisabled(curseforgeData)"
+            value="{{ curseforgeData.uid }}"
             >{{ curseforgeData.displayName }}
+            <small *ngIf="getCurseforgeOptionDisabled(curseforgeData)"
+              >&nbsp;<span style="text-transform: capitalize; font-weight: bold;">{{ curseforgeData.minPlanId }}</span> plan required
+            </small>
           </nb-option>
         </nb-select>
       </div>

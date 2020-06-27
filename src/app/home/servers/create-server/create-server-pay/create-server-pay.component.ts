@@ -10,6 +10,7 @@ import { firestore } from 'firebase';
 import { NbToastrService } from '@nebular/theme';
 import { Router } from '@angular/router';
 import { AngularFireAnalytics } from '@angular/fire/analytics';
+import { environment } from 'src/environments/environment';
 
 declare let Paddle: any;
 
@@ -47,13 +48,11 @@ export class CreateServerPayComponent implements OnInit {
   }
 
   payClicked() {
-    // firestore()
-    //   .doc(`servers/${this.server.uid}`)
-    //   .set(this.server)
-    //   .catch((e) => alert(e))
-    //   .then((_) => console.log('success'));
-
-    // return;
+    if (!environment.production) {
+      this.bypassPayment();
+      this.successfulPayment(null);
+      return;
+    }
 
     this.analytics.logEvent('server_pay_clicked');
 
@@ -71,6 +70,14 @@ export class CreateServerPayComponent implements OnInit {
         }
       },
     });
+  }
+
+  bypassPayment() {
+    firestore()
+      .doc(`servers/${this.server.uid}`)
+      .set(this.server)
+      .catch((e) => alert(e))
+      .then((_) => console.log('success'));
   }
 
   successfulPayment(data: PaddleData) {

@@ -22,12 +22,10 @@ export class ServerFullComponent implements OnInit {
   statusBadgeUI$: Observable<{ status: string; text: string }>;
 
   // TODO move duplicated code (dialogs and restart/delete server into a jobs service)
-  constructor(private route: ActivatedRoute, private serversService: ServersService) {
-    this.server$ = this.route.snapshot.data.server$; // Retrieved from serverResolver
-    this.status$ = this.serversService.getStatus$(this.server) as any;
-  }
+  constructor(private route: ActivatedRoute, private serversService: ServersService) {}
 
   async ngOnInit() {
+    this.server$ = this.route.snapshot.data.server$; // Retrieved from serverResolver
     this.server = await this.server$.pipe(take(1)).toPromise();
     this.status$ = this.serversService.getStatus$(this.server);
     this.statusBadgeUI$ = this.getStatusBadgeUI$();
