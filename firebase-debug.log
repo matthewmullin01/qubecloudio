@@ -1,0 +1,17 @@
+[debug] [2020-06-27T15:27:45.099Z] ----------------------------------------------------------------------
+[debug] [2020-06-27T15:27:45.101Z] Command:       /usr/local/bin/node /Users/matthewmullin/Development/minecraft/node_modules/.bin/firebase deploy --only hosting:minecraft
+[debug] [2020-06-27T15:27:45.101Z] CLI Version:   8.1.1
+[debug] [2020-06-27T15:27:45.102Z] Platform:      darwin
+[debug] [2020-06-27T15:27:45.102Z] Node Version:  v10.16.3
+[debug] [2020-06-27T15:27:45.102Z] Time:          Sat Jun 27 2020 17:27:45 GMT+0200 (South Africa Standard Time)
+[debug] [2020-06-27T15:27:45.102Z] ----------------------------------------------------------------------
+[debug] [2020-06-27T15:27:45.102Z] 
+[debug] [2020-06-27T15:27:45.113Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-06-27T15:27:45.113Z] > authorizing via signed-in user
+[debug] [2020-06-27T15:27:45.114Z] [iam] checking project minecraft-63461 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2020-06-27T15:27:45.117Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/minecraft-63461:testIamPermissions  
+ {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2020-06-27T15:27:48.089Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Sat, 27 Jun 2020 15:27:47 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=1482","alt-svc":"h3-27=\":443\"; ma=2592000,h3-25=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-06-27T15:27:48.091Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/minecraft-63461  
+ 
+[debug] [2020-06-27T15:27:49.535Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Sat, 27 Jun 2020 15:27:49 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-27=\":443\"; ma=2592000,h3-25=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}

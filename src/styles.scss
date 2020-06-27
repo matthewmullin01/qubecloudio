@@ -24,3 +24,7 @@ a {
     color: nb-theme(color-primary-400);
   }
 }
+
+nb-spinner {
+  z-index: 1030 !important;
+}

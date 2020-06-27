@@ -10,6 +10,7 @@ import { IJar } from 'src/shared/models/jar.model';
 import { Observable } from 'rxjs';
 import { take, find } from 'rxjs/operators';
 import { ICurseforgeData } from 'src/shared/models/curseforge.model';
+import { plans } from 'src/shared/models/plan.model';
 
 @Component({
   selector: 'app-create-server-b',
@@ -50,7 +51,6 @@ export class CreateServerBComponent implements OnInit {
 
   async setDefaults() {
     this.formData.jarUid = (await this.jars$.pipe(take(1)).toPromise())[0].uid;
-    this.formData.curseforgeUid = (await this.curseforgeData$.pipe(take(1)).toPromise())[0].uid;
   }
 
   getJars(): Observable<IJar[]> {
@@ -61,8 +61,15 @@ export class CreateServerBComponent implements OnInit {
 
   getCurseforgeData(): Observable<ICurseforgeData[]> {
     return this.afs
-      .collection<ICurseforgeData>('/curseforge', (ref) => ref.orderBy('displayOrder', 'desc'))
+      .collection<ICurseforgeData>('/curseforge', (ref) => ref.orderBy('displayOrder', 'desc').where('enabled', '==', true))
       .valueChanges();
+  }
+
+  getCurseforgeOptionDisabled(data: ICurseforgeData): boolean {
+    const minRequiredPlan = plans.find((a) => a.id === data.minPlanId);
+    const selectedPlan = this.createServerSvc.plan;
+
+    return selectedPlan.index < minRequiredPlan.index;
   }
 
   async onSubmit(form: NgForm) {

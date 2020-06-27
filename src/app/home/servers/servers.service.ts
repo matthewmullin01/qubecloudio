@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IServer } from 'src/shared/models/server.model';
-import { Observable, timer, of } from 'rxjs';
+import { Observable, timer, of, BehaviorSubject } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAnalytics } from '@angular/fire/analytics';
 import { SharedService } from 'src/shared/services/shared.service';
@@ -20,6 +20,8 @@ export class ServersService {
   private user: IUser;
   usersServers$: Observable<IServer[]>;
 
+  serverStatuses: { serverUid: string; status: BehaviorSubject<ServerStatusEnum> }[] = [];
+
   constructor(
     private afs: AngularFirestore,
     private ss: SharedService,
@@ -35,6 +37,26 @@ export class ServersService {
   async onInit() {
     this.user = await this.ss.getUser();
     this.usersServers$ = this.getUsersServers();
+
+    // (await this.usersServers$.pipe(take(1)).toPromise()).forEach((server, i) => {
+    //   console.log(i, server.uid);
+    //   this.serverStatuses.push({ serverUid: server.uid, status: new BehaviorSubject(null) });
+    //   this.pollServerStatus(server);
+    // });
+
+    this.usersServers$
+      .pipe(
+        map((servers) => {
+          servers.forEach((server, i) => {
+            console.log(i, server.uid);
+            if (!this.serverStatuses.find((a) => a.serverUid === server.uid)) {
+              this.serverStatuses.push({ serverUid: server.uid, status: new BehaviorSubject(null) });
+              this.pollServerStatus(server.uid);
+            }
+          });
+        })
+      )
+      .subscribe();
   }
 
   private getUsersServers(): Observable<IServer[]> {
@@ -43,36 +65,83 @@ export class ServersService {
       .valueChanges();
   }
 
-  getStatus$(server: IServer, initDelay: number = 0) {
-    return timer(initDelay, 5000).pipe(
-      tap(() => console.log('Polling Server Status')),
-      switchMap(() => {
-        if (!server.vmInfo?.publicIP) {
-          return of<ServerStatusEnum>('offline');
-        }
+  private pollServerStatus(serverUid: string, initDelay: number = 0) {
+    const index = this.serverStatuses.findIndex((a) => a.serverUid === serverUid);
+    const statusObservable = this.serverStatuses[index].status;
+    timer(initDelay, 5000)
+      .pipe(
+        tap(() => console.log('Polling Server Statuses')),
+        switchMap(async () => {
+          const servers = await this.usersServers$.pipe(take(1)).toPromise();
 
-        return (
+          const server = servers.find((a) => a.uid === serverUid) as IServer;
+
+          if (!server.vmInfo?.publicIP) {
+            statusObservable.next('offline');
+            // return of<ServerStatusEnum>('offline');
+          }
+
           this.http
             .get(`${environment.functions.getStatusProxy}?publicIP=${server.vmInfo.publicIP}`)
             // Success Handler
-            .pipe<ServerStatusEnum>(
-              map((data: IStatusResult) => {
-                return data.Status === 'healthy' ? 'online' : 'starting';
+            .pipe(
+              tap((data: IStatusResult) => {
+                statusObservable.next(data.Status === 'healthy' ? 'online' : 'starting');
               })
             )
             // Error Handler
-            .pipe<ServerStatusEnum>(
-              catchError<any, Observable<ServerStatusEnum>>((error) => {
+            .pipe(
+              catchError((error) => {
                 console.warn(error);
-                return of<ServerStatusEnum>('offline');
+                statusObservable.next('offline');
+                return error;
               })
             )
             // Final Return Handler
             .pipe((status) => status)
-        );
-      }),
-      retryWhen((errors) => errors.pipe(delay(15000), take(10)))
-    );
+            .pipe(take(1))
+            .subscribe();
+        }),
+        retryWhen((errors) => errors.pipe(delay(15000), take(10)))
+      )
+      .subscribe();
+  }
+
+  getStatus$(server: IServer, initDelay: number = 0) {
+    if (!server) {
+      return of(null);
+    }
+    return this.serverStatuses?.find((a) => a.serverUid === server.uid)?.status;
+
+    // return timer(initDelay, 5000).pipe(
+    //   tap(() => console.log('Polling Server Status')),
+    //   switchMap(() => {
+    //     if (!server.vmInfo?.publicIP) {
+    //       return of<ServerStatusEnum>('offline');
+    //     }
+
+    //     return (
+    //       this.http
+    //         .get(`${environment.functions.getStatusProxy}?publicIP=${server.vmInfo.publicIP}`)
+    //         // Success Handler
+    //         .pipe<ServerStatusEnum>(
+    //           map((data: IStatusResult) => {
+    //             return data.Status === 'healthy' ? 'online' : 'starting';
+    //           })
+    //         )
+    //         // Error Handler
+    //         .pipe<ServerStatusEnum>(
+    //           catchError<any, Observable<ServerStatusEnum>>((error) => {
+    //             console.warn(error);
+    //             return of<ServerStatusEnum>('offline');
+    //           })
+    //         )
+    //         // Final Return Handler
+    //         .pipe((status) => status)
+    //     );
+    //   }),
+    //   retryWhen((errors) => errors.pipe(delay(15000), take(10)))
+    // );
   }
 
   async openDeleteDialog(server: IServer) {
