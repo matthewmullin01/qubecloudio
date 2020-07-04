@@ -83,6 +83,19 @@
       </div>
     </div>
   </div>
+
+  <div class="col-md-6 offset-3" *ngIf="formData.serverTypeSelection === 'curseforge'">
+    <nb-alert outline="basic">
+      <span style="font-size: 0.8em; font-weight: normal;" class="text-center">
+        Most modpacks require both the server and your local Minecraft to have the required mods running.
+        <b
+          >We recommend using the <a target="_blank" href="https://help.twitch.tv/s/article/guide-to-modpacks/">Twitch installer</a> to
+          manage the mods on your side.</b
+        >
+        We handle the rest on the server.
+      </span>
+    </nb-alert>
+  </div>
 </form>
 
 <div class="form-group col-md-6 offset-3 text-left" style="margin-top: 45px;">

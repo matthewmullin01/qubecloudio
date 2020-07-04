@@ -41,6 +41,7 @@ import {
   NbDialogModule,
   NbBadgeModule,
   NbTooltipModule,
+  NbAlertModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -111,6 +112,7 @@ import { ServerPropertiesUiComponent } from './home/servers/server/server-proper
     NbTooltipModule,
     NbLayoutModule,
     NbUserModule,
+    NbAlertModule,
     NbListModule,
     NbActionsModule,
     NbSidebarModule,
