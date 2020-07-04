@@ -48,13 +48,13 @@ export class CreateServerPayComponent implements OnInit {
   }
 
   payClicked() {
+    this.analytics.logEvent('server_pay_clicked');
+
     if (!environment.production) {
       this.bypassPayment();
       this.successfulPayment(null);
       return;
     }
-
-    this.analytics.logEvent('server_pay_clicked');
 
     const passthrough: IPassthrough = { server: this.server, user: this.user };
 
