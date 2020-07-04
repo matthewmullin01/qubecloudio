@@ -150,7 +150,7 @@ export class ServersService {
         context: {
           title: 'Delete Server',
           body: `Deleting this server will remove it from you list of active servers and access to the server will be terminated. You will not be
-          billed for this server from the end of the current billing cycle.
+          billed for this server going forward.
           `,
           // <br><br> We will keep a backup of your game world for the next three months
           // in case you change your mind.
@@ -165,7 +165,7 @@ export class ServersService {
     if (result === 'confirm') {
       try {
         await this.deleteServer(server);
-        this.toastr.info(`Server has been closed`, 'Removed');
+        this.toastr.info(`Server has been removed`, 'Removed');
         this.router.navigate(['/home/servers']);
       } catch (error) {
         console.error(error);
