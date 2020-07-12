@@ -7,6 +7,7 @@ export interface IPlan {
   cpuCount: number;
   recommendedPlayers: string;
   price: number;
+  discountPercent?: number;
 }
 
 export const plans: IPlan[] = [
@@ -39,6 +40,7 @@ export const plans: IPlan[] = [
     cpuCount: 1,
     recommendedPlayers: '5 - 10',
     price: 44,
+    discountPercent: 25,
   },
   {
     name: 'Super',

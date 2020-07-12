@@ -30,7 +30,19 @@
         <small> <b> {{ getCpuCountText(plan.cpuCount) }}</b></small>
       </td>
       <td>{{ plan.recommendedPlayers }}</td>
-      <td>{{ "$" + plan.price }}</td>
+      <td style="position: relative;">
+        <div class="d-flex align-items-center justify-content-center">
+          <span>
+            {{ "$" + plan.price }}
+          </span>
+          <nb-badge
+            *ngIf="plan.discountPercent"
+            style="position: relative; color: #ff3d71; border: #ff3d71 1px solid; background-color: transparent; margin-left: 10px;"
+            [text]="plan.discountPercent + '% OFF'"
+          >
+          </nb-badge>
+        </div>
+      </td>
       <td>
         <button shape="round" size="small" nbButton hero status="primary" (click)="selectClicked(plan)">
           Select
