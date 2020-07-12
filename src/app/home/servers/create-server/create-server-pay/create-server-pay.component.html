@@ -43,6 +43,12 @@
 
   <p style="color: grey;">
     <b>The {{ plan?.name }} plan will cost ${{ plan?.price }} per month </b>
+    <nb-badge
+      *ngIf="plan.discountPercent"
+      style="position: relative; color: #ff3d71; border: #ff3d71 1px solid; background-color: transparent; margin-left: 3px;"
+      [text]="plan.discountPercent + '% OFF'"
+    >
+    </nb-badge>
     <br />
     You will not be charged until the end of your free trial
     <br />
