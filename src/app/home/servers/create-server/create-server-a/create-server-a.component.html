@@ -1,0 +1,56 @@
+<div class="text-center">
+  <h4>Choose a Plan</h4>
+
+  <p style="margin-top: 15px;">
+    All plans include a
+    <b style="padding: 2px; border-bottom: 4px solid #00cc6f; border-radius: 2px;">free 24 hour trial</b>
+  </p>
+  <p>
+    Select one of our preset plans. All servers have unlimited player limits and run on a dedicated private IP.
+  </p>
+</div>
+<br />
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Plan</th>
+      <th scope="col">Ram</th>
+      <th scope="col">CPU</th>
+      <th scope="col">Recommended Players</th>
+      <th scope="col">Price</th>
+      <th scope="col">Order</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let plan of plans" style="font-weight: bold;">
+      <th scope="row">{{ plan.name }}</th>
+      <td>{{ plan.ramSize }} <small> GB </small></td>
+      <td>
+        <small> <b> {{ getCpuCountText(plan.cpuCount) }}</b></small>
+      </td>
+      <td>{{ plan.recommendedPlayers }}</td>
+      <td style="position: relative;">
+        <div class="d-flex align-items-center justify-content-center">
+          <span>
+            {{ "$" + plan.price }}
+          </span>
+          <nb-badge
+            *ngIf="plan.discountPercent"
+            style="position: relative; color: #ff3d71; border: #ff3d71 1px solid; background-color: transparent; margin-left: 10px;"
+            [text]="plan.discountPercent + '% OFF'"
+          >
+          </nb-badge>
+        </div>
+      </td>
+      <td>
+        <button shape="round" size="small" nbButton hero status="primary" (click)="selectClicked(plan)">
+          Select
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- <button nbButton disabled nbStepperNext>prev</button>
+<button nbButton nbStepperNext>next</button> -->

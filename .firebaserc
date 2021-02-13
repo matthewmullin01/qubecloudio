@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "minecraft-63461"
+  },
+  "targets": {
+    "minecraft-63461": {
+      "hosting": {
+        "minecraft": [
+          "minecraft-63461"
+        ]
+      }
+    }
   }
 }

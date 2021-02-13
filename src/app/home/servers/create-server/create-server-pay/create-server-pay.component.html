@@ -1,0 +1,62 @@
+<div class="text-center">
+  <h4>Finalize</h4>
+
+  <br />
+
+  <p>Here is a summary of your new server - The plan selected is <b>{{ plan?.name }}</b>. Your server name is <b>{{ server?.name }}</b>.</p>
+</div>
+
+<div class="col-md-8 offset-2 text-center">
+  <div>
+    <hr style="width: 20%; margin-top: 42px; margin-bottom: 22px;" />
+    <div>
+      <h5 style="margin-bottom: 0;">{{ server.name }}</h5>
+    </div>
+    <p style="margin-bottom: 0;"><span style="color: darkgrey; max-lines: 1;"> {{ server.description }} </span></p>
+  </div>
+  <br />
+
+  <div>
+    <div class="key-val-wrapper">
+      <div class="key-val">
+        <p class="key">Location</p>
+        <p class="val">{{ fullLocation }}</p>
+      </div>
+
+      <div class="key-val">
+        <p class="key">Plan</p>
+        <p class="val">{{ server.planId }}</p>
+      </div>
+
+      <div class="key-val" *ngIf="server.serverType === 'VANILLA'">
+        <p class="key">Version</p>
+        <p class="val">{{ server.vanilla.jarVersion }}</p>
+      </div>
+
+      <div class="key-val" *ngIf="server.serverType === 'CURSEFORGE'">
+        <p class="key">Version</p>
+        <p class="val">{{ server.curseforge.name }}</p>
+      </div>
+    </div>
+  </div>
+  <hr style="width: 20%; margin-top: 37px; margin-bottom: 35px;" />
+
+  <p style="color: grey;">
+    <b>The {{ plan?.name }} plan will cost ${{ plan?.price }} per month </b>
+    <nb-badge
+      *ngIf="plan.discountPercent"
+      style="position: relative; color: #ff3d71; border: #ff3d71 1px solid; background-color: transparent; margin-left: 3px;"
+      [text]="plan.discountPercent + '% OFF'"
+    >
+    </nb-badge>
+    <br />
+    You will not be charged until the end of your free trial
+    <br />
+    You can cancel at anytime
+  </p>
+</div>
+
+<div class="form-group col-md-6 offset-3 text-center" style="margin-top: 45px;">
+  <button style="margin-right: 15px;" ghost nbButton nbStepperPrevious>Back</button>
+  <button style="margin-left: 15px;" hero nbButton status="primary" (click)="payClicked()">Subscribe</button>
+</div>

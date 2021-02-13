@@ -1,16 +1,24 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-
+const functionsBaseURL = 'https://us-central1-minecraft-63461.cloudfunctions.net';
 export const environment = {
-  production: false
-};
+  production: false,
+  firebase: {
+    apiKey: 'AIzaSyDEIqGattV-AjD1qShNgctNw2j8jQclMu0',
+    authDomain: 'minecraft-63461.firebaseapp.com',
+    databaseURL: 'https://minecraft-63461.firebaseio.com',
+    projectId: 'minecraft-63461',
+    storageBucket: 'minecraft-63461.appspot.com',
+    messagingSenderId: '962302234098',
+    appId: '1:962302234098:web:a395503c11a2213ce3ef6b',
+    measurementId: 'G-P0CFHWM402',
+  },
 
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+  functions: {
+    getStatusProxy: functionsBaseURL + '/getStatusProxy',
+    getPropsProxy: functionsBaseURL + '/getPropsProxy',
+    setPropsProxy: functionsBaseURL + '/setPropsProxy',
+    getLogsProxy: functionsBaseURL + '/getLogsProxy',
+    restartProxy: functionsBaseURL + '/restartProxy',
+    getResourcesProxy: functionsBaseURL + '/getResourcesProxy',
+    getResourcesNewestProxy: functionsBaseURL + '/getResourcesNewestProxy',
+  },
+};
