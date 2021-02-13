@@ -1,6 +1,37 @@
-# Minecraft
+# Qubecloud.io - Server Hosting Platform
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.1.
+Link - https://qubecloud.io/
+
+![Qubecloud](https://i.imgur.com/AbsyUZn.png)
+
+Qubecloud is a side project I have been working on that aims to make Minecraft server deployment a breeze.
+
+I primarily used it as a way to improve my knowledge about containerized services and Kubernetes. Each server can be deployed in isolation using dynamically configured Dockerfiles.
+
+Currently, I am using Google Compute Engine to run the docker containers, but with minor effort, this can be changed to run on a full Kubernetes environment. Finding the correct balance as it scales from a few servers to potentially hundreds is why I am starting with CE and will later move to K8s.
+
+## Stack
+* Plain HTML/CSS Landing Page
+* Angular 10 Web Application
+* [Nebular](https://akveo.github.io/nebular/) Component Library
+* Firebase - Auth, Cloud Functions and Firestore Database
+* Docker - WebApp talks to a seperate backend service to configure and build a Minecraft Server Dockerfile
+* Google Compute Engine for Dockerized VM Server Deployments
+* Paddle Payment Integration
+
+## Screenshots
+### Overview
+![Qubecloud Overview](https://i.imgur.com/O0eioqO.png)
+
+### Server Creation
+![Qubecloud Create 1](https://i.imgur.com/sdIrqp8.png)
+
+![Qubecloud Create 2](https://i.imgur.com/ZPOsSj1.png)
+
+### Server Details
+![Qubecloud Create 2](https://i.imgur.com/9yxaHDw.png)
+
+
 
 ## Development server
 
