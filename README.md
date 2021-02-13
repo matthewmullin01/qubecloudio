@@ -21,14 +21,27 @@ Currently, I am using Google Compute Engine to run the docker containers, but wi
 
 ## Screenshots
 ### Overview
+
+This is a glancable summary of all servers you have running.
+
 ![Qubecloud Overview](https://i.imgur.com/O0eioqO.png)
 
 ### Server Creation
+
+The first step in a three step process when setting up a new server. The plan you choose essentially decides the resources avalible to your server.
+
 ![Qubecloud Create 1](https://i.imgur.com/sdIrqp8.png)
+
+The second step is the main part of the process. Here you provided a name for your server as well as what version and/or modpack to deploy.
 
 ![Qubecloud Create 2](https://i.imgur.com/ZPOsSj1.png)
 
+The final step is a sumary screen and payment screen.
+
 ### Server Details
+
+This is a detailed view of a server. You can track CPU and ram server load, monitor the minecraft server logs, as well as update any server specific configuration.
+
 ![Qubecloud Create 2](https://i.imgur.com/9yxaHDw.png)
 
 
