@@ -1,0 +1,30 @@
+<nb-card id="wrapper-props-ui">
+  <nb-card-header>
+    <div class="d-flex justify-content-between align-items-center">
+      <div>Server Properties</div>
+      <button nbButton ghost shape="round" (click)="editForm()"><nb-icon icon="edit-outline"></nb-icon></button>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <form #form="ngForm">
+      <div *ngFor="let item of formData | keyvalue" class="form-group text-left">
+        <label>{{ item.key }}:</label>
+        <input
+          disabled
+          nbInput
+          fullWidth
+          type="text"
+          [placeholder]="item.key"
+          class="form-control"
+          [(ngModel)]="item.value"
+          [name]="item.key"
+        />
+      </div>
+    </form>
+  </nb-card-body>
+  <nb-card-footer>
+    <button type="submit" nbButton class="float-right" (click)="editForm()">
+      Edit
+    </button>
+  </nb-card-footer>
+</nb-card>

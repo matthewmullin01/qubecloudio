@@ -1,0 +1,30 @@
+// this is our just created themes.scss file, make sure the path to the file is correct
+@import '~bootstrap/dist/css/bootstrap.css';
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
+@import 'themes';
+
+// framework component styles
+@import '~@nebular/theme/styles/globals';
+
+// install the framework styles
+@include nb-install();
+@include nb-theme-global();
+
+label {
+  font-size: 0.8em;
+  color: nb-theme(color-basic-600);
+  font-weight: bold;
+}
+
+a {
+  cursor: pointer;
+  color: nb-theme(color-basic-600);
+
+  &:hover {
+    color: nb-theme(color-primary-400);
+  }
+}
+
+nb-spinner {
+  z-index: 1030 !important;
+}

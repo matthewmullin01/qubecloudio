@@ -1,0 +1,24 @@
+#wrapper-resources {
+  .toggle-button {
+    width: 65px;
+  }
+
+  .no-borders-right {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .no-borders-left {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+
+::ng-deep {
+  nb-dialog-container {
+    #wrapper-resources {
+      max-width: 95vw;
+      width: 1000px;
+    }
+  }
+}
