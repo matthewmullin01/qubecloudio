@@ -2,7 +2,7 @@
 
 Link - https://qubecloud.io/
 
-![Qubecloud](https://i.imgur.com/AbsyUZn.png)
+![Qubecloud](https://qubecloud.io/images/global/TextAndLogoPrimary.svg)
 
 Qubecloud is a side project I have been working on that aims to make Minecraft server deployment a breeze.
 
@@ -20,15 +20,22 @@ Currently, I am using Google Compute Engine to run the docker containers, but wi
 * Paddle Payment Integration
 
 ## Screenshots
-### Overview
+### Landing Page
 
-This is a glancable summary of all servers you have running.
+Hosted separately and built using static HTML and CSS for improved search engine optimization.
+
+![Qubecloud](https://i.imgur.com/AbsyUZn.png)
+
+
+### Servers Overview
+
+This is a glanceable summary of all servers you have running.
 
 ![Qubecloud Overview](https://i.imgur.com/O0eioqO.png)
 
 ### Server Creation
 
-The first step in a three step process when setting up a new server. The plan you choose essentially decides the resources avalible to your server.
+The first step in a three-step process when setting up a new server. The plan you choose essentially decides the resources available to your server.
 
 ![Qubecloud Create 1](https://i.imgur.com/sdIrqp8.png)
 
@@ -36,11 +43,11 @@ The second step is the main part of the process. Here you provided a name for yo
 
 ![Qubecloud Create 2](https://i.imgur.com/ZPOsSj1.png)
 
-The final step is a sumary screen and payment screen.
+The final step is a summary screen and payment screen.
 
 ### Server Details
 
-This is a detailed view of a server. You can track CPU and ram server load, monitor the minecraft server logs, as well as update any server specific configuration.
+This is a detailed view of a server. You can track CPU and ram server load, monitor the Minecraft server logs, as well as update any server-specific configuration.
 
 ![Qubecloud Create 2](https://i.imgur.com/9yxaHDw.png)
 
