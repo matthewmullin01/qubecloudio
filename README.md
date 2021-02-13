@@ -1,8 +1,9 @@
 # Qubecloud.io - Server Hosting Platform
 
-Link - https://qubecloud.io/
 
 ![Qubecloud](https://qubecloud.io/images/global/TextAndLogoPrimary.svg)
+
+https://qubecloud.io/
 
 Qubecloud is a side project I have been working on that aims to make Minecraft server deployment a breeze.
 
